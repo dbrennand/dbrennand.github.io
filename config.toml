@@ -1,0 +1,55 @@
+theme = "hugo-theme-codex" 
+
+# Override these settings with your own
+title = "Daniel Brennand"
+languageCode = "en-us"
+baseURL = "https://danielbrennand.com/"
+copyright = "© {year}"
+
+# Enable emojis in blog content
+enableEmoji = true
+
+# Optional params
+[params]
+  # Follow the Hugo date/time format reference here: 
+  # https://gohugo.io/functions/format/#gos-layout-string
+  dateFormat = "Jan 2 2006"
+
+  # Links to your social accounts, comment/uncomment as needed. Icons will be displayed for those specified.
+  github = "https://github.com/dbrennand"
+  email = "mailto:"
+  linkedin = "https://www.linkedin.com/in/daniel-brennand/"
+  # gitlab = "https://gitlab.com/<your handle>"
+  # instagram = "https://instagram.com/<your handle>"
+  # facebook = "https://facebook.com/<your handle>"
+  # youtube = "https://www.youtube.com/channel/<your channel>"
+  
+  # Titles for your icons (shown as tooltips), and also their display order.
+  # Currently, these icons are supported: 
+  #   "Twitter", "GitHub", "Email", "Facebook", "GitLab", "Instagram", "LinkedIn", "YouTube"
+  iconTitles = ["GitHub", "Email", "LinkedIn"]
+
+# This disables Hugo's default syntax highlighting in favor
+# of prismjs. If you wish to use Hugo's default syntax highlighting
+# over prismjs, remove this. You will also need to remove the prismjs
+# vendor script in layouts/blog/single.html.
+[markup]
+  [markup.highlight]
+    codeFences = false
+    
+  # Set to false to disallow raw HTML in markdown files
+  [markup.goldmark.renderer]
+      unsafe = true
+
+# Controls the navigation
+[[menu.main]]
+  identifier = "About"
+  name = "About"
+  title = "About"
+  url = "/"
+
+[[menu.main]]
+  identifier = "Blog"
+  name = "Blog"
+  title = "Blog"
+  url = "/blog"
