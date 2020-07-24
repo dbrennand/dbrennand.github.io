@@ -152,7 +152,7 @@ View the Caddy container logs using: `docker logs caddy`. If everything is confi
 [INFO][freshrss.yourdomain.com] Obtain: Releasing lock
 ```
 
-:star: Congratulations! You have successfully configured Caddy to obtain a valid certificate from Let's Encrypt for the subdomain `freshrss` under your Cloudflare apex domain :smile:.
+:star: Congratulations! You have successfully configured Caddy to obtain a valid certificate from Let's Encrypt for the subdomain `freshrss` under your Cloudflare apex domain :smile:
 
 Navigate to `freshrss.yourdomain.com` in your browser and you will see the setup wizard for freshrss!
 
