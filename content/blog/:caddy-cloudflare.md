@@ -135,7 +135,7 @@ environment:
 
 6. Start the Caddy and freshrss containers using: `docker-compose up -d`.
 
-View the Caddy container logs using: `docker logs caddy`. If everything is configured correctly, you will see something similar to the following output in the caddy container logs:
+View the Caddy container logs using: `docker logs caddy`. If everything is configured correctly, you will see something similar to the following output in the Caddy container logs:
 
 ```
 [INFO] [freshrss.yourdomain.com] acme: use dns-01 solver
