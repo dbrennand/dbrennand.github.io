@@ -101,7 +101,7 @@ Notable optional environment variables:
 
 - `RRTYPE`: Defaults to: `A` for IPv4. To use IPv6, you can alter the value to `AAAA`. 
 
-    - **NOTE**: To use IPv6 (`AAAA`), Docker must have [IPv6 enabled](https://docs.docker.com/config/daemon/ipv6/).
+    - **NOTE**: To use IPv6 (`AAAA`), Docker must have [IPv6 support](https://docs.docker.com/config/daemon/ipv6/) enabled.
 
 - `CRON`: The interval to check if the DNS record needs to be updated. Defaults to: `*/5 * * * *` (5 minutes).
 
@@ -143,7 +143,7 @@ docker run -d --name cloudflare \
 
 Update the DNS record with the public IPv6 address for the subdomain `freshrss` in the zone `danielbrennand.com` with traffic proxied through Cloudflare.
 
-**NOTE**: Remember, for this example to work, you must have [IPv6 enabled](https://docs.docker.com/config/daemon/ipv6/) in Docker.
+**NOTE**: Remember, for this example to work, you must have [IPv6 support](https://docs.docker.com/config/daemon/ipv6/) enabled in Docker.
 
 ```bash
 docker run -d --name cloudflare \
