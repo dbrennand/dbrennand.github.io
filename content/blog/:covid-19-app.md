@@ -86,4 +86,6 @@ You can access a live version of the application by heading to https://uk-covid-
 
 For more information on the steps above, see the following Microsoft [documentation](https://docs.microsoft.com/en-us/azure/app-service/quickstart-python?tabs=bash&pivots=python-framework-flask).
 
+Overall, this was a fun little project which I believe met the aims I set out to achieve. I also ended up learning how to deploy a Python application to Azure App Service :simple_smile:
+
 Thanks for reading and I hope you enjoyed reading this short blog post. Until next time! :wave:
