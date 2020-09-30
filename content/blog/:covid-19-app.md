@@ -36,7 +36,7 @@ The application uses a number of libraries including:
 
 * [Loguru](https://github.com/Delgan/loguru): This is personal preference but I like how this library makes Python logging hassle free and is very easy to integrate into my application.
 
-* [Feedparser](https://pythonhosted.org/feedparser/): This library allows my application to parse BBC's health news RSS feed and show COVID-19 related articles in my application. This can be seen on this like in [app.py](https://github.com/dbrennand/UK-COVID-19-Stats/blob/master/app.py#L118).
+* [Feedparser](https://pythonhosted.org/feedparser/): This library allows my application to parse BBC's health news RSS feed and show COVID-19 related articles in my application. This can be seen on this line in [app.py](https://github.com/dbrennand/UK-COVID-19-Stats/blob/master/app.py#L118).
 
 ## Application datasource
 
