@@ -12,7 +12,7 @@ Hi! :wave:
 
 I had some free time recently so I decided to develop something which was relevant to current worldwide situation. The ongoing Coronavirus (COVID-19) pandemic.
 
-This is going to be a short blog post about the application, its aims and deploying it to Azure App Service.
+This is going to be a short blog post about the application, its aims and the process of deploying it to Azure App Service.
 
 # Aims
 
