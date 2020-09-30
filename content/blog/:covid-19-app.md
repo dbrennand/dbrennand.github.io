@@ -78,7 +78,7 @@ I deployed the application onto Azure App Service by using the [Azure CLI](https
 
 2. Log in to my Azure account using the command: `az login`.
 
-3. From my project repository, run the following command: `az webapp up --sku F1 --name <app-name>`.
+3. From my project repository, run the following command: `az webapp up --sku F1 --name <my-app-name>`.
 
 Thats it! The Azure CLI did all of the heavy lifting creating a resource group for my application in Azure, creating an App Service plan and the app service object, zipping up my application and deploying it! :smile:
 
