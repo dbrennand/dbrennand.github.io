@@ -42,7 +42,7 @@ The application uses a number of libraries including:
 
 I began looking for a potential datasource for my application to retrieve UK based data for the COVID-19 outbreak.
 
-I came across the [UK COVID-19 dashboard](https://coronavirus.data.gov.uk/) which provides an API and Python SDK (mentioned above) developed by Public Health England (PHE). The API is free (Thanks PHE! :heart:) and provides loads of data including (but not limited to):
+I came across the [UK COVID-19 dashboard](https://coronavirus.data.gov.uk/) which provides an API and Python SDK (mentioned above) developed by PHE. The API is free (Thanks PHE! :heart:) and provides loads of data including (but not limited to):
 
 * New cases.
 
