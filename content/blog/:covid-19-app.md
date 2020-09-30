@@ -1,5 +1,5 @@
 ---
-title: "UK COVID-19 stats application (Python)"
+title: "UK COVID-19 stats application"
 date: 2020-09-30T13:56:45+01:00
 description: "A simple Flask app showing how the COVID-19 (SARS-CoV-2) pandemic is developing in the UK."
 draft: true
@@ -26,7 +26,7 @@ I had three aims that I wanted to achieve:
 
 # UK-COVID-19-Stats Python application
 
-The application is open source on Github. Check it out [here](https://github.com/dbrennand/UK-COVID-19-Stats)! :smile:
+The application is open source on Github and developed in Python. Check it out [here](https://github.com/dbrennand/UK-COVID-19-Stats)! :smile:
 
 The application uses a number of libraries including:
 
@@ -86,6 +86,6 @@ You can access a live version of the application by heading to https://uk-covid-
 
 For more information on the steps above, see the following Microsoft [documentation](https://docs.microsoft.com/en-us/azure/app-service/quickstart-python?tabs=bash&pivots=python-framework-flask).
 
-Overall, this was a fun little project which I believe met the aims I set out to achieve. I also ended up learning how to deploy a Python application to Azure App Service :simple_smile:
+Overall, this was a fun little project which I believe met the aims I set out to achieve. I also ended up learning how to deploy a Python application to Azure App Service :smiley:
 
 Thanks for reading and I hope you enjoyed reading this short blog post. Until next time! :wave:
