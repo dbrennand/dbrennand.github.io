@@ -76,7 +76,7 @@ I deployed the application onto Azure App Service by using the [Azure CLI](https
 
     - I'm using Windows so I used [chocolatey](https://chocolatey.org/) to install it using the following command: `choco install azure-cli -y`
 
-2. Login to my Azure account using the command: `az login`.
+2. Log in to my Azure account using the command: `az login`.
 
 3. From my project repository, run the following command: `az webapp up --sku F1 --name <app-name>`.
 
