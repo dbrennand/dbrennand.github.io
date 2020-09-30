@@ -70,7 +70,7 @@ More detailed instructions on how to do this can be found [here](https://github.
 
 I wanted to host the application somewhere for free. Luckily for me, Microsoft's Azure App Service has a free tier instance (SKU: F1) which allowed me to host my application free of charge! :heart: :smile:
 
-I deployed the application onto Azure App Service by using the [Azure command line interface (CLI)](https://docs.microsoft.com/en-us/cli/azure/what-is-azure-cli). It was super easy and involved the following steps:
+I deployed the application onto Azure App Service by using the [Azure command-line interface (CLI)](https://docs.microsoft.com/en-us/cli/azure/what-is-azure-cli). It was super easy and involved the following steps:
 
 1. Install the Azure CLI.
 
