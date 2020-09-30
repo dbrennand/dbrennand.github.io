@@ -42,7 +42,7 @@ The application uses a number of libraries including:
 
 I began looking for a potential datasource for my application to retrieve UK based data for the COVID-19 outbreak.
 
-I came across the [UK COVID-19 dashboard](https://coronavirus.data.gov.uk/) which provides an API and Python SDK (mentioned above) developed by PHE. The API is free (Thanks PHE! :heart:) and provides loads of data including (but not limited to):
+I came across the [UK COVID-19 dashboard](https://coronavirus.data.gov.uk/) which provides an application programming interface (API) and Python software development kit (SDK) (mentioned above) developed by PHE. The API is free (Thanks PHE! :heart:) and provides loads of data including (but not limited to):
 
 * New cases.
 
@@ -70,7 +70,7 @@ More detailed instructions on how to do this can be found [here](https://github.
 
 I wanted to host the application somewhere for free. Luckily for me, Microsoft's Azure App Service has a free tier instance (SKU: F1) which allowed me to host my application free of charge! :heart: :smile:
 
-I deployed the application onto Azure App Service by using the [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/what-is-azure-cli). It was super easy and involved the following steps:
+I deployed the application onto Azure App Service by using the [Azure command line interface (CLI)](https://docs.microsoft.com/en-us/cli/azure/what-is-azure-cli). It was super easy and involved the following steps:
 
 1. Install the Azure CLI.
 
