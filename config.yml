@@ -12,6 +12,8 @@ params:
     ShowToc: true
     ShowShareButtons: false
     defaultTheme: auto
+    cover:
+        responsiveImages: true
     # Home info mode parameters
     homeInfoParams:
         Title: Hi, I'm Daniel Brennand 👋
@@ -34,3 +36,18 @@ menu:
           name: Archive
           url: /archives
           weight: 20
+
+privacy:
+  disqus:
+    disable: true
+  googleAnalytics:
+    disable: true
+  instagram:
+    disable: true
+  twitter:
+    disable: true
+  vimeo:
+    disable: true
+  # Leaving enabled for now
+  youtube:
+    disable: true
