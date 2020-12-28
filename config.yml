@@ -52,6 +52,5 @@ privacy:
     disable: true
   vimeo:
     disable: true
-  # Leaving enabled for now
   youtube:
     disable: true
