@@ -32,10 +32,14 @@ menu:
           name: Blog
           url: /blog
           weight: 10
+        - identifier: Tags
+          name: Tags
+          url: /tags
+          weight: 20
         - identifier: Archive
           name: Archive
           url: /archives
-          weight: 20
+          weight: 30
 
 privacy:
   disqus:
