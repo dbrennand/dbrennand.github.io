@@ -4,8 +4,7 @@ date: 2020-07-26T17:46:07+01:00
 description: "How to use Cloudflare as a DDNS provider."
 draft: false
 tags: ["Dynamic DNS", "DDNS", "Cloudflare", "Docker", "Containers"]
-math: false
-toc: false
+showToc: true
 ---
 
 This blog post will show you how to use Cloudflare as a Dynamic DNS (DDNS) provider.
@@ -21,7 +20,7 @@ Essentially, DDNS allows you to automatically update your DNS records when a cha
 
 Many Internet Service Providers (ISPs) do not provide their customers with a static public IP address. This can cause issues for people who self-host applications from home and have DNS records pointing to their ISP provided public IP address.
 
-Say you are hosting some applications from home and have DNS records pointing to your home's public IP address. What if you router suddenly rebooted due to a software or hardware issue? 
+Say you are hosting some applications from home and have DNS records pointing to your home's public IP address. What if you router suddenly rebooted due to a software or hardware issue?
 
 Your ISP **may** assign you with a new public IP address causing your applications to be inaccessible. This is an example of where DDNS could help.
 
@@ -86,7 +85,7 @@ To obtain a Cloudflare API token:
 The docker-cloudflare-ddns container **requires** the following environment variables:
 
 - `API_KEY`: The API token (created above) used to update a DNS record for the granted zone.
-    
+
 - `ZONE`: The DNS zone which updates should be applied to.
 
     - Example: `danielbrennand.com`.
@@ -99,7 +98,7 @@ Notable optional environment variables:
 
 - `PROXIED`: If `true`, the proxy status on the DNS record will be set to proxy traffic through Cloudflare.
 
-- `RRTYPE`: Defaults to: `A` for IPv4. To use IPv6, you can alter the value to `AAAA`. 
+- `RRTYPE`: Defaults to: `A` for IPv4. To use IPv6, you can alter the value to `AAAA`.
 
     - **NOTE**: To use IPv6 (`AAAA`), Docker must have [IPv6 support](https://docs.docker.com/config/daemon/ipv6/) enabled.
 
