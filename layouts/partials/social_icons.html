@@ -1,0 +1,11 @@
+<div class="social-icons">
+    {{- range . -}}
+    {{ if eq .name "email" }}
+    <a href="{{ trim .url " " | base64Decode | markdownify }}" target="_blank" rel="noopener noreferrer me"
+        title="{{ .name | humanize }}">{{ partial "svg.html" . }}</a>
+    {{ else }}
+    <a href="{{ trim .url " " }}" target="_blank" rel="noopener noreferrer me"
+        title="{{ .name | humanize }}">{{ partial "svg.html" . }}</a>
+    {{- end -}}
+    {{- end -}}
+</div>
