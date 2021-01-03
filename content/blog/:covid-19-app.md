@@ -4,8 +4,7 @@ date: 2020-09-30T13:56:45+01:00
 description: "A simple Flask app showing how the COVID-19 (SARS-CoV-2) pandemic is developing in the UK."
 draft: false
 tags: ["Flask", "Python", "COVID-19", "UK", "Azure", "App Service"]
-math: false
-toc: false
+showToc: true
 ---
 
 Hi! :wave:

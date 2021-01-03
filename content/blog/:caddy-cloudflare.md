@@ -4,8 +4,7 @@ date: 2020-07-21T21:08:07+01:00
 description: "How to use Caddy v2 as a reverse proxy with a Cloudflare managed domain."
 draft: false
 tags: ["Caddy", "Reverse-Proxy", "Cloudflare", "Docker", "Containers"]
-math: false
-toc: false
+showToc: true
 ---
 
 [Caddy](https://caddyserver.com/) version [2.0.0](https://github.com/caddyserver/caddy/releases/tag/v2.0.0) released on May 4th 2020. Caddy brands itself as "The Ultimate Server" with [functionality](https://caddyserver.com/docs/) including a web server, reverse proxy, automatic certificate renewal, automatic HTTPS and more!
