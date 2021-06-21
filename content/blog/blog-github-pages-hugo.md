@@ -142,7 +142,7 @@ jobs:
 
 # Step 6 - Publish the site
 
-Finally, you need to push all the contents up to the GitHub repository. To do this, run the following commands from the root of the site:
+Finally, you need to push all the contents up to the GitHub repository. To do this, run the following commands from the root directory of the site:
 
 1. `git add -A`
 
