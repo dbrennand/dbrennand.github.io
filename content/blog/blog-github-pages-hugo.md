@@ -48,11 +48,11 @@ Now, create a new branch using the following command: ` cd username.github.io.gi
 
 # Step 2 - Initalising your Hugo site
 
-Run the following command to initalise your site: `hugo new site -f yml username.github.io`
+Run the following command to initalise your site: `hugo new site -f yml .`
 
 You should see the following output:
 
-`Congratulations! Your new Hugo site is created in /path/to/your/hugo/site/username.github.io`
+`Congratulations! Your new Hugo site is created in /path/to/your/hugo/site/username.github.io.`
 
 # Step 3 - Adding and configuring a site theme
 
