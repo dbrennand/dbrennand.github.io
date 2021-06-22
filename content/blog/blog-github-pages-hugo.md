@@ -96,7 +96,7 @@ You should see the following output verifying that a markdown file was created f
 
 Next, open the file, write your post's content and save the file.
 
-To see your site rendered run the following command: `hugo server -D` and paste the following URL into your browser: `http://localhost:1313/`.
+To see your site rendered run the command: `hugo server -D` and paste the following URL into your browser: `http://localhost:1313/`.
 
 **NOTE**: Once you have finished writing your post, set `draft: true` at the top of the file to *false*.
 
