@@ -62,7 +62,7 @@ Many themes provide a demo so you can see for yourself whether you like the them
 
 In this post, I'm going to use the [Tania](https://themes.gohugo.io/hugo-tania/) theme.
 
-Following the themes [installation instructions](https://themes.gohugo.io/hugo-tania/#installation), run the command: `cd username.github.io; git submodule add https://github.com/WingLim/hugo-tania themes/hugo-tania` to install the theme.
+Following the themes [installation instructions](https://themes.gohugo.io/hugo-tania/#installation), run the command: `git submodule add https://github.com/WingLim/hugo-tania themes/hugo-tania` to install the theme.
 
 In the site's root directory (`username.github.io`), open the `config.yml` file and paste the [Tania theme's configuration](https://github.com/WingLim/hugo-tania/blob/main/exampleSite/config.yaml). Edit it to your liking and save the file.
 
