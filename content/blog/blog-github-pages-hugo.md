@@ -1,7 +1,7 @@
 ---
 title: "Creating a blog for free using GitHub Pages and Hugo"
 date: 2021-06-21T10:55:13+01:00
-draft: true
+draft: false
 tags: ["Blog", "Hugo", "Github Pages", "Github", "Pages"]
 showToc: true
 ---
