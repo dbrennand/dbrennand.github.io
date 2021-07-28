@@ -1,29 +1,284 @@
-<!doctype html><html lang=en dir=auto><head><meta charset=utf-8><meta http-equiv=x-ua-compatible content="IE=edge"><meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no"><meta name=robots content="index, follow"><title>Using Cloudflare as a Dynamic DNS (DDNS) provider | Daniel Brennand</title><meta name=keywords content="Dynamic DNS,DDNS,Cloudflare,Docker,Containers"><meta name=description content="How to use Cloudflare as a DDNS provider."><meta name=author content="Daniel Brennand"><link rel=canonical href=https://danielbrennand.com/blog/cloudflare-ddns/><link href=https://danielbrennand.com/assets/css/stylesheet.min.19d8234f7520f2216aca845b9f292982671403accc7e754ceb099b228a5980fe.css integrity="sha256-GdgjT3Ug8iFqyoRbnykpgmcUA6zMfnVM6wmbIopZgP4=" rel="preload stylesheet" as=style><link rel=icon href=https://danielbrennand.com/favicon.ico><link rel=icon type=image/png sizes=16x16 href=https://danielbrennand.com/favicon-16x16.png><link rel=icon type=image/png sizes=32x32 href=https://danielbrennand.com/favicon-32x32.png><link rel=apple-touch-icon href=https://danielbrennand.com/apple-touch-icon.png><link rel=mask-icon href=https://danielbrennand.com/safari-pinned-tab.svg><meta name=theme-color content="#2e2e33"><meta name=msapplication-TileColor content="#2e2e33"><meta name=generator content="Hugo 0.74.2"><meta property="og:title" content="Using Cloudflare as a Dynamic DNS (DDNS) provider"><meta property="og:description" content="How to use Cloudflare as a DDNS provider."><meta property="og:type" content="article"><meta property="og:url" content="https://danielbrennand.com/blog/cloudflare-ddns/"><meta property="article:published_time" content="2020-07-26T17:46:07+01:00"><meta property="article:modified_time" content="2020-07-26T17:46:07+01:00"><meta name=twitter:card content="summary"><meta name=twitter:title content="Using Cloudflare as a Dynamic DNS (DDNS) provider"><meta name=twitter:description content="How to use Cloudflare as a DDNS provider."><script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Using Cloudflare as a Dynamic DNS (DDNS) provider","name":"Using Cloudflare as a Dynamic DNS (DDNS) provider","description":"This blog post will show you how to use Cloudflare as a Dynamic DNS (DDNS) provider.\nWhat is DDNS?  Dynamic DNS (DDNS) is a service that keeps the Domain Name System (DNS) updated …","keywords":["Dynamic DNS","DDNS","Cloudflare","Docker","Containers"],"articleBody":"This blog post will show you how to use Cloudflare as a Dynamic DNS (DDNS) provider.\nWhat is DDNS?  Dynamic DNS (DDNS) is a service that keeps the Domain Name System (DNS) updated with a web property’s correct IP address. Cloudflare glossary: Dynamic DNS 1 Essentially, DDNS allows you to automatically update your DNS records when a change is detected to your public IP address.\nDDNS Common Use Case Many Internet Service Providers (ISPs) do not provide their customers with a static public IP address. This can cause issues for people who self-host applications from home and have DNS records pointing to their ISP provided public IP address.\nSay you are hosting some applications from home and have DNS records pointing to your home’s public IP address. What if you router suddenly rebooted due to a software or hardware issue?\nYour ISP may assign you with a new public IP address causing your applications to be inaccessible. This is an example of where DDNS could help.\nWith DDNS, you can ensure your DNS records are automatically kept up to date when your home’s public IP address changes 👍\nOther DDNS providers Cloudflare is not the only option for DDNS. There are many others including:\n  DuckDNS\n  NoIP\n  FreeDNS\n  However, for this blog post, we are obviously focusing on using Cloudflare 😄\nUsing Cloudflare as a DDNS provider We will be using the docker-cloudflare-ddns docker container created by oznu to use Cloudflare as a DDNS provider.\nPrerequisites   A domain managed with Cloudflare.\n  Docker installed on a server which can reach the Cloudflare API: https://api.cloudflare.com/client/v4/.\n  A Cloudflare API token (see below).\n  Creating a Cloudflare API Token To obtain a Cloudflare API token:\n  Log in to the Cloudflare dashboard to manage your API tokens.\n  Click Create Token.\n  Under Custom Token, click Get started.\n  Provide a Name for the API token.\n  Under Permissions, grant the following to the API token:\n  Zone / Zone Settings / Read\n  Zone / Zone / Read\n  Zone / DNS / Edit\n    Under Zone Resources, include the zone (domain) you want to grant the API token permissions to edit.\n   Click Continue to summary.\n  Review the API token configuration and click Create Token.\n  Using the docker-cloudflare-ddns container The docker-cloudflare-ddns container requires the following environment variables:\n  API_KEY: The API token (created above) used to update a DNS record for the granted zone.\n  ZONE: The DNS zone which updates should be applied to.\n Example: danielbrennand.com.    Notable optional environment variables:\n  SUBDOMAIN: The subdomain in the ZONE to update a DNS record for.\n NOTE: If absent, the root zone (Example: danielbrennand.com) DNS record will be updated.    PROXIED: If true, the proxy status on the DNS record will be set to proxy traffic through Cloudflare.\n  RRTYPE: Defaults to: A for IPv4. To use IPv6, you can alter the value to AAAA.\n NOTE: To use IPv6 (AAAA), Docker must have IPv6 support enabled.    CRON: The interval to check if the DNS record needs to be updated. Defaults to: */5 * * * * (5 minutes).\n For useful cron examples, see here.    Other environment variables can be found here.\nNOTE: If the DNS record to be updated does not exist, it will be created automatically.\nDeployment Examples I will be using my domain in the examples below. Make sure you alter it to your domain! 😆\nExample 1: Update the DNS record for the subdomain freshrss in the zone danielbrennand.com with traffic proxied through Cloudflare.\ndocker run -d --name cloudflare \\  -e API_KEY=\"Insert your Cloudflare API token here.\" \\  -e ZONE=\"danielbrennand.com\" \\  -e SUBDOMAIN=\"freshrss\" \\  -e PROXIED=\"true\" \\  oznu/cloudflare-ddns Example 2: Update the DNS record for the root zone danielbrennand.com.\ndocker run -d --name cloudflare \\  -e API_KEY=\"Insert your Cloudflare API token here.\" \\  -e ZONE=\"danielbrennand.com\" \\  oznu/cloudflare-ddns Example 3: Update the DNS record with the public IPv6 address for the subdomain freshrss in the zone danielbrennand.com with traffic proxied through Cloudflare.\nNOTE: Remember, for this example to work, you must have IPv6 support enabled in Docker.\ndocker run -d --name cloudflare \\  -e API_KEY=\"Insert your Cloudflare API token here.\" \\  -e ZONE=\"danielbrennand.com\" \\  -e SUBDOMAIN=\"freshrss\" \\  -e RRTYPE=\"AAAA\" \\  -e PROXIED=\"true\" \\  oznu/cloudflare-ddns Example 4: Update the DNS record for the subdomain freshrss in the zone danielbrennand.com on an interval of 1 hour.\ndocker run -d --name cloudflare \\  -e API_KEY=\"Insert your Cloudflare API token here.\" \\  -e ZONE=\"danielbrennand.com\" \\  -e SUBDOMAIN=\"freshrss\" \\  -e CRON=\"0 * * * *\" \\  oznu/cloudflare-ddns If successful, observing the container logs using docker logs cloudflare will look similar to the following output:\nThe following logs are from Example 1.\n[cont-init.d] executing container initialization scripts... [cont-init.d] 30-cloudflare-setup: executing... DNS Zone: danielbrennand.com (619du4059a9354492r54e6702834ao62) DNS record for 'freshrss.danielbrennand.com' was not found in danielbrennand.com zone. Creating now... DNS Record: freshrss.danielbrennand.com (bde8a4987aj8ede16d62d7479d967f3l) [cont-init.d] 30-cloudflare-setup: exited 0. [cont-init.d] 50-ddns: executing... No DNS update required for freshrss.danielbrennand.com (Public IPv4 address here). Multiple Subdomains Your probably thinking, what if I wanted multiple subdomains pointing to my public IP address. Do I have to run this container for each of them!?\nNope! 😄\nYou can create CNAME records pointing to the A record referencing your public IP address.\nContinuing with the example subdomain above (freshrss), if I had a new application which I wanted to host at the subdomain foo.danielbrennand.com. I would create the following CNAME record:\n  Type: CNAME\n  Name: foo\n  Target: freshrss.@\n  TTL: Auto\n  Proxy Status: Proxied\n  I hope you found this blog post useful in showing you how Cloudflare can be used as a DDNS provider 😃 Until next time! 👋\nReferences   https://www.cloudflare.com/learning/dns/glossary/dynamic-dns/ ↩︎\n   ","wordCount":"915","inLanguage":"en","datePublished":"2020-07-26T17:46:07+01:00","dateModified":"2020-07-26T17:46:07+01:00","author":{"@type":"Person","name":"Daniel Brennand"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://danielbrennand.com/blog/cloudflare-ddns/"},"publisher":{"@type":"Organization","name":"Daniel Brennand","logo":{"@type":"ImageObject","url":"https://danielbrennand.com/favicon.ico"}}}</script></head><body id=top><script>if(localStorage.getItem("pref-theme")==="dark"){document.body.classList.add('dark');}else if(localStorage.getItem("pref-theme")==="light"){document.body.classList.remove('dark')}else if(window.matchMedia('(prefers-color-scheme: dark)').matches){document.body.classList.add('dark');}</script><noscript><style type=text/css>.theme-toggle,.top-link{display:none}</style></noscript><header class=header><nav class=nav><div class=logo><a href=https://danielbrennand.com accesskey=h title="Daniel Brennand (Alt + H)">Daniel Brennand</a>
-<span class=logo-switches><span class=theme-toggle title="(Alt + T)"><a id=theme-toggle accesskey=t><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg></a></span></span></div><ul class=menu id=menu onscroll=menu_on_scroll()><li><a href=https://danielbrennand.com/blog title=Blog><span>Blog</span></a></li><li><a href=https://danielbrennand.com/tags title=Tags><span>Tags</span></a></li><li><a href=https://danielbrennand.com/archives title=Archive><span>Archive</span></a></li></ul></nav></header><main class=main><article class=post-single><header class=post-header><h1 class=post-title>Using Cloudflare as a Dynamic DNS (DDNS) provider</h1><div class=post-description>How to use Cloudflare as a DDNS provider.</div><div class=post-meta>July 26, 2020&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Daniel Brennand</div></header><div class=toc><details><summary accesskey=c title="(Alt + C)"><div class=details>Table of Contents</div></summary><blockquote><ul><li><a href=#what-is-ddns aria-label="What is DDNS?">What is DDNS?</a></li><li><a href=#ddns-common-use-case aria-label="DDNS Common Use Case">DDNS Common Use Case</a></li><li><a href=#other-ddns-providers aria-label="Other DDNS providers">Other DDNS providers</a></li><li><a href=#using-cloudflare-as-a-ddns-provider aria-label="Using Cloudflare as a DDNS provider">Using Cloudflare as a DDNS provider</a><ul><li><a href=#prerequisites aria-label=Prerequisites>Prerequisites</a><ul><li><a href=#creating-a-cloudflare-api-token aria-label="Creating a Cloudflare API Token">Creating a Cloudflare API Token</a></li></ul></li><li><a href=#using-the-docker-cloudflare-ddns-container aria-label="Using the docker-cloudflare-ddns container">Using the docker-cloudflare-ddns container</a><ul><li><a href=#deployment-examples aria-label="Deployment Examples">Deployment Examples</a><ul><li><a href=#example-1 aria-label="Example 1:">Example 1:</a></li><li><a href=#example-2 aria-label="Example 2:">Example 2:</a></li><li><a href=#example-3 aria-label="Example 3:">Example 3:</a></li><li><a href=#example-4 aria-label="Example 4:">Example 4:</a></li></ul></li></ul></li><li><a href=#multiple-subdomains aria-label="Multiple Subdomains">Multiple Subdomains</a></li></ul></li><li><a href=#references aria-label=References>References</a></li></ul></blockquote></details></div><div class=post-content><p>This blog post will show you how to use Cloudflare as a Dynamic DNS (DDNS) provider.</p><h2 id=what-is-ddns>What is DDNS?<a hidden class=anchor aria-hidden=true href=#what-is-ddns>#</a></h2><blockquote><p>Dynamic DNS (DDNS) is a service that keeps the Domain Name System (DNS) updated with a web property’s correct IP address.
-Cloudflare glossary: Dynamic DNS <sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></p></blockquote><p>Essentially, DDNS allows you to automatically update your DNS records when a change is detected to your public IP address.</p><h2 id=ddns-common-use-case>DDNS Common Use Case<a hidden class=anchor aria-hidden=true href=#ddns-common-use-case>#</a></h2><p>Many Internet Service Providers (ISPs) do not provide their customers with a static public IP address. This can cause issues for people who self-host applications from home and have DNS records pointing to their ISP provided public IP address.</p><p>Say you are hosting some applications from home and have DNS records pointing to your home&rsquo;s public IP address. What if you router suddenly rebooted due to a software or hardware issue?</p><p>Your ISP <strong>may</strong> assign you with a new public IP address causing your applications to be inaccessible. This is an example of where DDNS could help.</p><p>With DDNS, you can ensure your DNS records are automatically kept up to date when your home&rsquo;s public IP address changes 👍</p><h2 id=other-ddns-providers>Other DDNS providers<a hidden class=anchor aria-hidden=true href=#other-ddns-providers>#</a></h2><p>Cloudflare is not the only option for DDNS. There are many others including:</p><ul><li><p><a href=https://www.duckdns.org/>DuckDNS</a></p></li><li><p><a href=https://www.noip.com/>NoIP</a></p></li><li><p><a href=https://freedns.afraid.org/>FreeDNS</a></p></li></ul><p>However, for this blog post, we are obviously focusing on using Cloudflare 😄</p><h2 id=using-cloudflare-as-a-ddns-provider>Using Cloudflare as a DDNS provider<a hidden class=anchor aria-hidden=true href=#using-cloudflare-as-a-ddns-provider>#</a></h2><p>We will be using the <a href=https://github.com/oznu/docker-cloudflare-ddns>docker-cloudflare-ddns</a> docker container created by <a href=https://github.com/oznu>oznu</a> to use Cloudflare as a DDNS provider.</p><h3 id=prerequisites>Prerequisites<a hidden class=anchor aria-hidden=true href=#prerequisites>#</a></h3><ol><li><p>A domain managed with Cloudflare.</p></li><li><p>Docker installed on a server which can reach the Cloudflare API: <code>https://api.cloudflare.com/client/v4/</code>.</p></li><li><p>A Cloudflare API token (see below).</p></li></ol><h4 id=creating-a-cloudflare-api-token>Creating a Cloudflare API Token<a hidden class=anchor aria-hidden=true href=#creating-a-cloudflare-api-token>#</a></h4><p>To obtain a Cloudflare API token:</p><ol><li><p>Log in to the <a href=https://dash.cloudflare.com/profile/api-tokens>Cloudflare dashboard</a> to manage your API tokens.</p></li><li><p>Click <strong>Create Token</strong>.</p></li><li><p>Under <em>Custom Token</em>, click <strong>Get started</strong>.</p></li><li><p>Provide a <em>Name</em> for the API token.</p></li><li><p>Under <em>Permissions</em>, grant the following to the API token:</p><ul><li><p>Zone / Zone Settings / Read</p></li><li><p>Zone / Zone / Read</p></li><li><p>Zone / DNS / Edit</p></li></ul><p><img src=/images/api-token-permissions.png alt="Cloudflare API token permissions"></p></li><li><p>Under <em>Zone Resources</em>, include the zone (domain) you want to grant the API token permissions to edit.</p></li></ol><p><img src=/images/full-api-token.png alt="Cloudflare API token summary"></p><ol start=7><li><p>Click <strong>Continue to summary</strong>.</p></li><li><p>Review the API token configuration and click <strong>Create Token</strong>.</p></li></ol><h3 id=using-the-docker-cloudflare-ddns-container>Using the docker-cloudflare-ddns container<a hidden class=anchor aria-hidden=true href=#using-the-docker-cloudflare-ddns-container>#</a></h3><p>The docker-cloudflare-ddns container <strong>requires</strong> the following environment variables:</p><ul><li><p><code>API_KEY</code>: The API token (created above) used to update a DNS record for the granted zone.</p></li><li><p><code>ZONE</code>: The DNS zone which updates should be applied to.</p><ul><li>Example: <code>danielbrennand.com</code>.</li></ul></li></ul><p>Notable optional environment variables:</p><ul><li><p><code>SUBDOMAIN</code>: The subdomain in the <code>ZONE</code> to update a DNS record for.</p><ul><li><strong>NOTE</strong>: If absent, the root zone (Example: <code>danielbrennand.com</code>) DNS record will be updated.</li></ul></li><li><p><code>PROXIED</code>: If <code>true</code>, the proxy status on the DNS record will be set to proxy traffic through Cloudflare.</p></li><li><p><code>RRTYPE</code>: Defaults to: <code>A</code> for IPv4. To use IPv6, you can alter the value to <code>AAAA</code>.</p><ul><li><strong>NOTE</strong>: To use IPv6 (<code>AAAA</code>), Docker must have <a href=https://docs.docker.com/config/daemon/ipv6/>IPv6 support</a> enabled.</li></ul></li><li><p><code>CRON</code>: The interval to check if the DNS record needs to be updated. Defaults to: <code>*/5 * * * *</code> (5 minutes).</p><ul><li>For useful cron examples, see <a href=https://crontab.guru/examples.html>here</a>.</li></ul></li></ul><p>Other environment variables can be found <a href=https://github.com/oznu/docker-cloudflare-ddns#optional-parameters>here</a>.</p><p><strong>NOTE</strong>: If the DNS record to be updated does not exist, it will be created automatically.</p><h4 id=deployment-examples>Deployment Examples<a hidden class=anchor aria-hidden=true href=#deployment-examples>#</a></h4><p>I will be using my domain in the examples below. Make sure you alter it to your domain! 😆</p><h5 id=example-1>Example 1:<a hidden class=anchor aria-hidden=true href=#example-1>#</a></h5><p>Update the DNS record for the subdomain <code>freshrss</code> in the zone <code>danielbrennand.com</code> with traffic proxied through Cloudflare.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker run -d --name cloudflare <span style=color:#ae81ff>\
+<!doctype html><html lang=en dir=auto>
+<head><meta charset=utf-8>
+<meta http-equiv=x-ua-compatible content="IE=edge">
+<meta name=viewport content="width=device-width,initial-scale=1,shrink-to-fit=no">
+<meta name=robots content="index, follow">
+<title>Using Cloudflare as a Dynamic DNS (DDNS) provider | Daniel Brennand</title>
+<meta name=keywords content="Dynamic DNS,DDNS,Cloudflare,Docker,Containers">
+<meta name=description content="How to use Cloudflare as a DDNS provider.">
+<meta name=author content="Daniel Brennand">
+<link rel=canonical href=https://danielbrennand.com/blog/cloudflare-ddns/>
+<link crossorigin=anonymous href=/assets/css/stylesheet.min.35cd0f65a15cafa92372b8313deef5960aae04b90ad722f2bbf509eb0468137e.css integrity="sha256-Nc0PZaFcr6kjcrgxPe71lgquBLkK1yLyu/UJ6wRoE34=" rel="preload stylesheet" as=style>
+<script defer crossorigin=anonymous src=/assets/js/highlight.min.7680afc38aa6b15ddf158a4f3780b7b1f7dde7e91d26f073e6229bb7a0793c92.js integrity="sha256-doCvw4qmsV3fFYpPN4C3sffd5+kdJvBz5iKbt6B5PJI=" onload=hljs.initHighlightingOnLoad()></script>
+<link rel=icon href=https://danielbrennand.com/favicon.ico>
+<link rel=icon type=image/png sizes=16x16 href=https://danielbrennand.com/favicon-16x16.png>
+<link rel=icon type=image/png sizes=32x32 href=https://danielbrennand.com/favicon-32x32.png>
+<link rel=apple-touch-icon href=https://danielbrennand.com/apple-touch-icon.png>
+<link rel=mask-icon href=https://danielbrennand.com/safari-pinned-tab.svg>
+<meta name=theme-color content="#2e2e33">
+<meta name=msapplication-TileColor content="#2e2e33">
+<meta name=generator content="Hugo 0.86.0">
+<meta property="og:title" content="Using Cloudflare as a Dynamic DNS (DDNS) provider">
+<meta property="og:description" content="How to use Cloudflare as a DDNS provider.">
+<meta property="og:type" content="article">
+<meta property="og:url" content="https://danielbrennand.com/blog/cloudflare-ddns/"><meta property="article:section" content="blog">
+<meta property="article:published_time" content="2020-07-26T17:46:07+01:00">
+<meta property="article:modified_time" content="2020-07-26T17:46:07+01:00">
+<meta name=twitter:card content="summary">
+<meta name=twitter:title content="Using Cloudflare as a Dynamic DNS (DDNS) provider">
+<meta name=twitter:description content="How to use Cloudflare as a DDNS provider.">
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":2,"name":"Blogs","item":"https://danielbrennand.com/blog/"},{"@type":"ListItem","position":3,"name":"Using Cloudflare as a Dynamic DNS (DDNS) provider","item":"https://danielbrennand.com/blog/cloudflare-ddns/"}]}</script>
+<script type=application/ld+json>{"@context":"https://schema.org","@type":"BlogPosting","headline":"Using Cloudflare as a Dynamic DNS (DDNS) provider","name":"Using Cloudflare as a Dynamic DNS (DDNS) provider","description":"How to use Cloudflare as a DDNS provider.","keywords":["Dynamic DNS","DDNS","Cloudflare","Docker","Containers"],"articleBody":"This blog post will show you how to use Cloudflare as a Dynamic DNS (DDNS) provider.\nWhat is DDNS?  Dynamic DNS (DDNS) is a service that keeps the Domain Name System (DNS) updated with a web property’s correct IP address. Cloudflare glossary: Dynamic DNS 1 Essentially, DDNS allows you to automatically update your DNS records when a change is detected to your public IP address.\nDDNS Common Use Case Many Internet Service Providers (ISPs) do not provide their customers with a static public IP address. This can cause issues for people who self-host applications from home and have DNS records pointing to their ISP provided public IP address.\nSay you are hosting some applications from home and have DNS records pointing to your home’s public IP address. What if you router suddenly rebooted due to a software or hardware issue?\nYour ISP may assign you with a new public IP address causing your applications to be inaccessible. This is an example of where DDNS could help.\nWith DDNS, you can ensure your DNS records are automatically kept up to date when your home’s public IP address changes 👍\nOther DDNS providers Cloudflare is not the only option for DDNS. There are many others including:\n  DuckDNS\n  NoIP\n  FreeDNS\n  However, for this blog post, we are obviously focusing on using Cloudflare 😄\nUsing Cloudflare as a DDNS provider We will be using the docker-cloudflare-ddns docker container created by oznu to use Cloudflare as a DDNS provider.\nPrerequisites   A domain managed with Cloudflare.\n  Docker installed on a server which can reach the Cloudflare API: https://api.cloudflare.com/client/v4/.\n  A Cloudflare API token (see below).\n  Creating a Cloudflare API Token To obtain a Cloudflare API token:\n  Log in to the Cloudflare dashboard to manage your API tokens.\n  Click Create Token.\n  Under Custom Token, click Get started.\n  Provide a Name for the API token.\n  Under Permissions, grant the following to the API token:\n  Zone / Zone Settings / Read\n  Zone / Zone / Read\n  Zone / DNS / Edit\n    Under Zone Resources, include the zone (domain) you want to grant the API token permissions to edit.\n   Click Continue to summary.\n  Review the API token configuration and click Create Token.\n  Using the docker-cloudflare-ddns container The docker-cloudflare-ddns container requires the following environment variables:\n  API_KEY: The API token (created above) used to update a DNS record for the granted zone.\n  ZONE: The DNS zone which updates should be applied to.\n Example: danielbrennand.com.    Notable optional environment variables:\n  SUBDOMAIN: The subdomain in the ZONE to update a DNS record for.\n NOTE: If absent, the root zone (Example: danielbrennand.com) DNS record will be updated.    PROXIED: If true, the proxy status on the DNS record will be set to proxy traffic through Cloudflare.\n  RRTYPE: Defaults to: A for IPv4. To use IPv6, you can alter the value to AAAA.\n NOTE: To use IPv6 (AAAA), Docker must have IPv6 support enabled.    CRON: The interval to check if the DNS record needs to be updated. Defaults to: */5 * * * * (5 minutes).\n For useful cron examples, see here.    Other environment variables can be found here.\nNOTE: If the DNS record to be updated does not exist, it will be created automatically.\nDeployment Examples I will be using my domain in the examples below. Make sure you alter it to your domain! 😆\nExample 1: Update the DNS record for the subdomain freshrss in the zone danielbrennand.com with traffic proxied through Cloudflare.\ndocker run -d --name cloudflare \\  -e API_KEY=\"Insert your Cloudflare API token here.\" \\  -e ZONE=\"danielbrennand.com\" \\  -e SUBDOMAIN=\"freshrss\" \\  -e PROXIED=\"true\" \\  oznu/cloudflare-ddns Example 2: Update the DNS record for the root zone danielbrennand.com.\ndocker run -d --name cloudflare \\  -e API_KEY=\"Insert your Cloudflare API token here.\" \\  -e ZONE=\"danielbrennand.com\" \\  oznu/cloudflare-ddns Example 3: Update the DNS record with the public IPv6 address for the subdomain freshrss in the zone danielbrennand.com with traffic proxied through Cloudflare.\nNOTE: Remember, for this example to work, you must have IPv6 support enabled in Docker.\ndocker run -d --name cloudflare \\  -e API_KEY=\"Insert your Cloudflare API token here.\" \\  -e ZONE=\"danielbrennand.com\" \\  -e SUBDOMAIN=\"freshrss\" \\  -e RRTYPE=\"AAAA\" \\  -e PROXIED=\"true\" \\  oznu/cloudflare-ddns Example 4: Update the DNS record for the subdomain freshrss in the zone danielbrennand.com on an interval of 1 hour.\ndocker run -d --name cloudflare \\  -e API_KEY=\"Insert your Cloudflare API token here.\" \\  -e ZONE=\"danielbrennand.com\" \\  -e SUBDOMAIN=\"freshrss\" \\  -e CRON=\"0 * * * *\" \\  oznu/cloudflare-ddns If successful, observing the container logs using docker logs cloudflare will look similar to the following output:\nThe following logs are from Example 1.\n[cont-init.d] executing container initialization scripts... [cont-init.d] 30-cloudflare-setup: executing... DNS Zone: danielbrennand.com (619du4059a9354492r54e6702834ao62) DNS record for 'freshrss.danielbrennand.com' was not found in danielbrennand.com zone. Creating now... DNS Record: freshrss.danielbrennand.com (bde8a4987aj8ede16d62d7479d967f3l) [cont-init.d] 30-cloudflare-setup: exited 0. [cont-init.d] 50-ddns: executing... No DNS update required for freshrss.danielbrennand.com (Public IPv4 address here). Multiple Subdomains Your probably thinking, what if I wanted multiple subdomains pointing to my public IP address. Do I have to run this container for each of them!?\nNope! 😄\nYou can create CNAME records pointing to the A record referencing your public IP address.\nContinuing with the example subdomain above (freshrss), if I had a new application which I wanted to host at the subdomain foo.danielbrennand.com. I would create the following CNAME record:\n  Type: CNAME\n  Name: foo\n  Target: freshrss.@\n  TTL: Auto\n  Proxy Status: Proxied\n  I hope you found this blog post useful in showing you how Cloudflare can be used as a DDNS provider 😃 Until next time! 👋\nReferences   https://www.cloudflare.com/learning/dns/glossary/dynamic-dns/ ↩︎\n   ","wordCount":"914","inLanguage":"en","datePublished":"2020-07-26T17:46:07+01:00","dateModified":"2020-07-26T17:46:07+01:00","author":{"@type":"Person","name":"Daniel Brennand"},"mainEntityOfPage":{"@type":"WebPage","@id":"https://danielbrennand.com/blog/cloudflare-ddns/"},"publisher":{"@type":"Organization","name":"Daniel Brennand","logo":{"@type":"ImageObject","url":"https://danielbrennand.com/favicon.ico"}}}</script>
+</head>
+<body id=top>
+<script>localStorage.getItem("pref-theme")==="dark"?document.body.classList.add('dark'):localStorage.getItem("pref-theme")==="light"?document.body.classList.remove('dark'):window.matchMedia('(prefers-color-scheme: dark)').matches&&document.body.classList.add('dark')</script>
+<noscript>
+<style type=text/css>#theme-toggle,.top-link{display:none}</style>
+<style>@media(prefers-color-scheme:dark){:root{--theme:#1d1e20;--entry:#2e2e33;--primary:rgba(255, 255, 255, 0.84);--secondary:rgba(255, 255, 255, 0.56);--tertiary:rgba(255, 255, 255, 0.16);--content:rgba(255, 255, 255, 0.74);--hljs-bg:#2e2e33;--code-bg:#37383e;--border:#333}.list{background:var(--theme)}.list:not(.dark)::-webkit-scrollbar-track{background:0 0}.list:not(.dark)::-webkit-scrollbar-thumb{border-color:var(--theme)}}</style>
+</noscript>
+<header class=header>
+<nav class=nav>
+<div class=logo>
+<a href=https://danielbrennand.com accesskey=h title="Daniel Brennand (Alt + H)">Daniel Brennand</a>
+<span class=logo-switches>
+<button id=theme-toggle accesskey=t title="(Alt + T)"><svg id="moon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"/></svg><svg id="sun" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentcolor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+</button>
+</span>
+</div>
+<ul id=menu>
+<li>
+<a href=https://danielbrennand.com/blog title=Blog>
+<span>Blog</span>
+</a>
+</li>
+<li>
+<a href=https://danielbrennand.com/tags title=Tags>
+<span>Tags</span>
+</a>
+</li>
+<li>
+<a href=https://danielbrennand.com/archives title=Archive>
+<span>Archive</span>
+</a>
+</li>
+</ul>
+</nav>
+</header>
+<main class=main>
+<article class=post-single>
+<header class=post-header>
+<h1 class=post-title>
+Using Cloudflare as a Dynamic DNS (DDNS) provider
+</h1>
+<div class=post-description>
+How to use Cloudflare as a DDNS provider.
+</div>
+<div class=post-meta>July 26, 2020&nbsp;·&nbsp;5 min&nbsp;·&nbsp;Daniel Brennand
+</div>
+</header> <div class=toc>
+<details>
+<summary accesskey=c title="(Alt + C)">
+<div class=details>Table of Contents</div>
+</summary>
+<div class=inner><ul>
+<li>
+<a href=#what-is-ddns aria-label="What is DDNS?">What is DDNS?</a></li>
+<li>
+<a href=#ddns-common-use-case aria-label="DDNS Common Use Case">DDNS Common Use Case</a></li>
+<li>
+<a href=#other-ddns-providers aria-label="Other DDNS providers">Other DDNS providers</a></li>
+<li>
+<a href=#using-cloudflare-as-a-ddns-provider aria-label="Using Cloudflare as a DDNS provider">Using Cloudflare as a DDNS provider</a><ul>
+<li>
+<a href=#prerequisites aria-label=Prerequisites>Prerequisites</a><ul>
+<li>
+<a href=#creating-a-cloudflare-api-token aria-label="Creating a Cloudflare API Token">Creating a Cloudflare API Token</a></li></ul>
+</li>
+<li>
+<a href=#using-the-docker-cloudflare-ddns-container aria-label="Using the docker-cloudflare-ddns container">Using the docker-cloudflare-ddns container</a><ul>
+<li>
+<a href=#deployment-examples aria-label="Deployment Examples">Deployment Examples</a><ul>
+<li>
+<a href=#example-1 aria-label="Example 1:">Example 1:</a></li>
+<li>
+<a href=#example-2 aria-label="Example 2:">Example 2:</a></li>
+<li>
+<a href=#example-3 aria-label="Example 3:">Example 3:</a></li>
+<li>
+<a href=#example-4 aria-label="Example 4:">Example 4:</a></li></ul>
+</li></ul>
+</li>
+<li>
+<a href=#multiple-subdomains aria-label="Multiple Subdomains">Multiple Subdomains</a></li></ul>
+</li>
+<li>
+<a href=#references aria-label=References>References</a>
+</li>
+</ul>
+</div>
+</details>
+</div>
+<div class=post-content><p>This blog post will show you how to use Cloudflare as a Dynamic DNS (DDNS) provider.</p>
+<h2 id=what-is-ddns>What is DDNS?<a hidden class=anchor aria-hidden=true href=#what-is-ddns>#</a></h2>
+<blockquote>
+<p>Dynamic DNS (DDNS) is a service that keeps the Domain Name System (DNS) updated with a web property’s correct IP address.
+Cloudflare glossary: Dynamic DNS <sup id=fnref:1><a href=#fn:1 class=footnote-ref role=doc-noteref>1</a></sup></p>
+</blockquote>
+<p>Essentially, DDNS allows you to automatically update your DNS records when a change is detected to your public IP address.</p>
+<h2 id=ddns-common-use-case>DDNS Common Use Case<a hidden class=anchor aria-hidden=true href=#ddns-common-use-case>#</a></h2>
+<p>Many Internet Service Providers (ISPs) do not provide their customers with a static public IP address. This can cause issues for people who self-host applications from home and have DNS records pointing to their ISP provided public IP address.</p>
+<p>Say you are hosting some applications from home and have DNS records pointing to your home&rsquo;s public IP address. What if you router suddenly rebooted due to a software or hardware issue?</p>
+<p>Your ISP <strong>may</strong> assign you with a new public IP address causing your applications to be inaccessible. This is an example of where DDNS could help.</p>
+<p>With DDNS, you can ensure your DNS records are automatically kept up to date when your home&rsquo;s public IP address changes 👍</p>
+<h2 id=other-ddns-providers>Other DDNS providers<a hidden class=anchor aria-hidden=true href=#other-ddns-providers>#</a></h2>
+<p>Cloudflare is not the only option for DDNS. There are many others including:</p>
+<ul>
+<li>
+<p><a href=https://www.duckdns.org/>DuckDNS</a></p>
+</li>
+<li>
+<p><a href=https://www.noip.com/>NoIP</a></p>
+</li>
+<li>
+<p><a href=https://freedns.afraid.org/>FreeDNS</a></p>
+</li>
+</ul>
+<p>However, for this blog post, we are obviously focusing on using Cloudflare 😄</p>
+<h2 id=using-cloudflare-as-a-ddns-provider>Using Cloudflare as a DDNS provider<a hidden class=anchor aria-hidden=true href=#using-cloudflare-as-a-ddns-provider>#</a></h2>
+<p>We will be using the <a href=https://github.com/oznu/docker-cloudflare-ddns>docker-cloudflare-ddns</a> docker container created by <a href=https://github.com/oznu>oznu</a> to use Cloudflare as a DDNS provider.</p>
+<h3 id=prerequisites>Prerequisites<a hidden class=anchor aria-hidden=true href=#prerequisites>#</a></h3>
+<ol>
+<li>
+<p>A domain managed with Cloudflare.</p>
+</li>
+<li>
+<p>Docker installed on a server which can reach the Cloudflare API: <code>https://api.cloudflare.com/client/v4/</code>.</p>
+</li>
+<li>
+<p>A Cloudflare API token (see below).</p>
+</li>
+</ol>
+<h4 id=creating-a-cloudflare-api-token>Creating a Cloudflare API Token<a hidden class=anchor aria-hidden=true href=#creating-a-cloudflare-api-token>#</a></h4>
+<p>To obtain a Cloudflare API token:</p>
+<ol>
+<li>
+<p>Log in to the <a href=https://dash.cloudflare.com/profile/api-tokens>Cloudflare dashboard</a> to manage your API tokens.</p>
+</li>
+<li>
+<p>Click <strong>Create Token</strong>.</p>
+</li>
+<li>
+<p>Under <em>Custom Token</em>, click <strong>Get started</strong>.</p>
+</li>
+<li>
+<p>Provide a <em>Name</em> for the API token.</p>
+</li>
+<li>
+<p>Under <em>Permissions</em>, grant the following to the API token:</p>
+<ul>
+<li>
+<p>Zone / Zone Settings / Read</p>
+</li>
+<li>
+<p>Zone / Zone / Read</p>
+</li>
+<li>
+<p>Zone / DNS / Edit</p>
+</li>
+</ul>
+<p><img loading=lazy src=/images/api-token-permissions.png alt="Cloudflare API token permissions">
+</p>
+</li>
+<li>
+<p>Under <em>Zone Resources</em>, include the zone (domain) you want to grant the API token permissions to edit.</p>
+</li>
+</ol>
+<p><img loading=lazy src=/images/full-api-token.png alt="Cloudflare API token summary">
+</p>
+<ol start=7>
+<li>
+<p>Click <strong>Continue to summary</strong>.</p>
+</li>
+<li>
+<p>Review the API token configuration and click <strong>Create Token</strong>.</p>
+</li>
+</ol>
+<h3 id=using-the-docker-cloudflare-ddns-container>Using the docker-cloudflare-ddns container<a hidden class=anchor aria-hidden=true href=#using-the-docker-cloudflare-ddns-container>#</a></h3>
+<p>The docker-cloudflare-ddns container <strong>requires</strong> the following environment variables:</p>
+<ul>
+<li>
+<p><code>API_KEY</code>: The API token (created above) used to update a DNS record for the granted zone.</p>
+</li>
+<li>
+<p><code>ZONE</code>: The DNS zone which updates should be applied to.</p>
+<ul>
+<li>Example: <code>danielbrennand.com</code>.</li>
+</ul>
+</li>
+</ul>
+<p>Notable optional environment variables:</p>
+<ul>
+<li>
+<p><code>SUBDOMAIN</code>: The subdomain in the <code>ZONE</code> to update a DNS record for.</p>
+<ul>
+<li><strong>NOTE</strong>: If absent, the root zone (Example: <code>danielbrennand.com</code>) DNS record will be updated.</li>
+</ul>
+</li>
+<li>
+<p><code>PROXIED</code>: If <code>true</code>, the proxy status on the DNS record will be set to proxy traffic through Cloudflare.</p>
+</li>
+<li>
+<p><code>RRTYPE</code>: Defaults to: <code>A</code> for IPv4. To use IPv6, you can alter the value to <code>AAAA</code>.</p>
+<ul>
+<li><strong>NOTE</strong>: To use IPv6 (<code>AAAA</code>), Docker must have <a href=https://docs.docker.com/config/daemon/ipv6/>IPv6 support</a> enabled.</li>
+</ul>
+</li>
+<li>
+<p><code>CRON</code>: The interval to check if the DNS record needs to be updated. Defaults to: <code>*/5 * * * *</code> (5 minutes).</p>
+<ul>
+<li>For useful cron examples, see <a href=https://crontab.guru/examples.html>here</a>.</li>
+</ul>
+</li>
+</ul>
+<p>Other environment variables can be found <a href=https://github.com/oznu/docker-cloudflare-ddns#optional-parameters>here</a>.</p>
+<p><strong>NOTE</strong>: If the DNS record to be updated does not exist, it will be created automatically.</p>
+<h4 id=deployment-examples>Deployment Examples<a hidden class=anchor aria-hidden=true href=#deployment-examples>#</a></h4>
+<p>I will be using my domain in the examples below. Make sure you alter it to your domain! 😆</p>
+<h5 id=example-1>Example 1:<a hidden class=anchor aria-hidden=true href=#example-1>#</a></h5>
+<p>Update the DNS record for the subdomain <code>freshrss</code> in the zone <code>danielbrennand.com</code> with traffic proxied through Cloudflare.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker run -d --name cloudflare <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e API_KEY<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Insert your Cloudflare API token here.&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e ZONE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;danielbrennand.com&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e SUBDOMAIN<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;freshrss&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e PROXIED<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;true&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  oznu/cloudflare-ddns
-</code></pre></div><h5 id=example-2>Example 2:<a hidden class=anchor aria-hidden=true href=#example-2>#</a></h5><p>Update the DNS record for the root zone <code>danielbrennand.com</code>.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker run -d --name cloudflare <span style=color:#ae81ff>\
+</code></pre></div><h5 id=example-2>Example 2:<a hidden class=anchor aria-hidden=true href=#example-2>#</a></h5>
+<p>Update the DNS record for the root zone <code>danielbrennand.com</code>.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker run -d --name cloudflare <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e API_KEY<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Insert your Cloudflare API token here.&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e ZONE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;danielbrennand.com&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  oznu/cloudflare-ddns
-</code></pre></div><h5 id=example-3>Example 3:<a hidden class=anchor aria-hidden=true href=#example-3>#</a></h5><p>Update the DNS record with the public IPv6 address for the subdomain <code>freshrss</code> in the zone <code>danielbrennand.com</code> with traffic proxied through Cloudflare.</p><p><strong>NOTE</strong>: Remember, for this example to work, you must have <a href=https://docs.docker.com/config/daemon/ipv6/>IPv6 support</a> enabled in Docker.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker run -d --name cloudflare <span style=color:#ae81ff>\
+</code></pre></div><h5 id=example-3>Example 3:<a hidden class=anchor aria-hidden=true href=#example-3>#</a></h5>
+<p>Update the DNS record with the public IPv6 address for the subdomain <code>freshrss</code> in the zone <code>danielbrennand.com</code> with traffic proxied through Cloudflare.</p>
+<p><strong>NOTE</strong>: Remember, for this example to work, you must have <a href=https://docs.docker.com/config/daemon/ipv6/>IPv6 support</a> enabled in Docker.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker run -d --name cloudflare <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e API_KEY<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Insert your Cloudflare API token here.&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e ZONE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;danielbrennand.com&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e SUBDOMAIN<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;freshrss&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e RRTYPE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;AAAA&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e PROXIED<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;true&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  oznu/cloudflare-ddns
-</code></pre></div><h5 id=example-4>Example 4:<a hidden class=anchor aria-hidden=true href=#example-4>#</a></h5><p>Update the DNS record for the subdomain <code>freshrss</code> in the zone <code>danielbrennand.com</code> on an interval of 1 hour.</p><div class=highlight><pre style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker run -d --name cloudflare <span style=color:#ae81ff>\
+</code></pre></div><h5 id=example-4>Example 4:<a hidden class=anchor aria-hidden=true href=#example-4>#</a></h5>
+<p>Update the DNS record for the subdomain <code>freshrss</code> in the zone <code>danielbrennand.com</code> on an interval of 1 hour.</p>
+<div class=highlight><pre tabindex=0 style=color:#f8f8f2;background-color:#272822;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-bash data-lang=bash>docker run -d --name cloudflare <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e API_KEY<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;Insert your Cloudflare API token here.&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e ZONE<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;danielbrennand.com&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e SUBDOMAIN<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;freshrss&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  -e CRON<span style=color:#f92672>=</span><span style=color:#e6db74>&#34;0 * * * *&#34;</span> <span style=color:#ae81ff>\
 </span><span style=color:#ae81ff></span>  oznu/cloudflare-ddns
-</code></pre></div><p>If successful, observing the container logs using <code>docker logs cloudflare</code> will look similar to the following output:</p><p>The following logs are from Example 1.</p><pre><code>[cont-init.d] executing container initialization scripts...
+</code></pre></div><p>If successful, observing the container logs using <code>docker logs cloudflare</code> will look similar to the following output:</p>
+<p>The following logs are from Example 1.</p>
+<pre><code>[cont-init.d] executing container initialization scripts...
 [cont-init.d] 30-cloudflare-setup: executing...
 DNS Zone: danielbrennand.com (619du4059a9354492r54e6702834ao62)
 DNS record for 'freshrss.danielbrennand.com' was not found in danielbrennand.com zone. Creating now...
@@ -31,10 +286,64 @@ DNS Record: freshrss.danielbrennand.com (bde8a4987aj8ede16d62d7479d967f3l)
 [cont-init.d] 30-cloudflare-setup: exited 0.
 [cont-init.d] 50-ddns: executing...
 No DNS update required for freshrss.danielbrennand.com (Public IPv4 address here).
-</code></pre><h3 id=multiple-subdomains>Multiple Subdomains<a hidden class=anchor aria-hidden=true href=#multiple-subdomains>#</a></h3><p>Your probably thinking, what if I wanted multiple subdomains pointing to my public IP address. Do I have to run this container for each of them!?</p><p>Nope! 😄</p><p>You can create CNAME records pointing to the A record referencing your public IP address.</p><p>Continuing with the example subdomain above (<code>freshrss</code>), if I had a new application which I wanted to host at the subdomain <code>foo.danielbrennand.com</code>. I would create the following CNAME record:</p><ul><li><p><strong>Type</strong>: CNAME</p></li><li><p><strong>Name</strong>: foo</p></li><li><p><strong>Target</strong>: freshrss.@</p></li><li><p><strong>TTL</strong>: Auto</p></li><li><p><strong>Proxy Status</strong>: Proxied</p></li></ul><p>I hope you found this blog post useful in showing you how Cloudflare can be used as a DDNS provider 😃 Until next time! 👋</p><h2 id=references>References<a hidden class=anchor aria-hidden=true href=#references>#</a></h2><section class=footnotes role=doc-endnotes><hr><ol><li id=fn:1 role=doc-endnote><p><a href=https://www.cloudflare.com/learning/dns/glossary/dynamic-dns/>https://www.cloudflare.com/learning/dns/glossary/dynamic-dns/</a> <a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p></li></ol></section></div><footer class=post-footer><ul class=post-tags><li><a href=https://danielbrennand.com/tags/dynamic-dns/>Dynamic DNS</a></li><li><a href=https://danielbrennand.com/tags/ddns/>DDNS</a></li><li><a href=https://danielbrennand.com/tags/cloudflare/>Cloudflare</a></li><li><a href=https://danielbrennand.com/tags/docker/>Docker</a></li><li><a href=https://danielbrennand.com/tags/containers/>Containers</a></li></ul></footer></article></main><footer class=footer><span>&copy; 2021 <a href=https://danielbrennand.com>Daniel Brennand</a></span>
-<span>&#183;</span>
-<span>Powered by <a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a></span>
-<span>&#183;</span>
-<span>Theme <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a></span></footer><a href=#top aria-label="go to top" title="Go to Top (Alt + G)"><button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6"><path d="M12 6H0l6-6z"/></svg></button></a>
-<script defer src=https://danielbrennand.com/assets/js/highlight.min.27cd435cc9ed6abb4b496581b151804f79f366c412620272bb94e2f5f598ebcc.js integrity="sha256-J81DXMntartLSWWBsVGAT3nzZsQSYgJyu5Ti9fWY68w=" onload=hljs.initHighlightingOnLoad();></script><script>window.onload=function(){if(localStorage.getItem("menu-scroll-position")){document.getElementById('menu').scrollLeft=localStorage.getItem("menu-scroll-position");}}
-document.querySelectorAll('a[href^="#"]').forEach(anchor=>{anchor.addEventListener("click",function(e){e.preventDefault();var id=this.getAttribute("href").substr(1);document.querySelector(`[id='${decodeURIComponent(id)}']`).scrollIntoView({behavior:"smooth"});if(id==="top"){history.replaceState(null,null," ");}else{history.replaceState(null,null,`#${id}`);}});});var mybutton=document.getElementById("top-link");window.onscroll=function(){if(document.body.scrollTop>800||document.documentElement.scrollTop>800){mybutton.style.visibility="visible";mybutton.style.opacity="1";}else{mybutton.style.visibility="hidden";mybutton.style.opacity="0";}};function menu_on_scroll(){localStorage.setItem("menu-scroll-position",document.getElementById('menu').scrollLeft);}</script><script>document.getElementById("theme-toggle").addEventListener("click",()=>{if(document.body.className.includes("dark")){document.body.classList.remove('dark');localStorage.setItem("pref-theme",'light');}else{document.body.classList.add('dark');localStorage.setItem("pref-theme",'dark');}})</script></body></html>
+</code></pre><h3 id=multiple-subdomains>Multiple Subdomains<a hidden class=anchor aria-hidden=true href=#multiple-subdomains>#</a></h3>
+<p>Your probably thinking, what if I wanted multiple subdomains pointing to my public IP address. Do I have to run this container for each of them!?</p>
+<p>Nope! 😄</p>
+<p>You can create CNAME records pointing to the A record referencing your public IP address.</p>
+<p>Continuing with the example subdomain above (<code>freshrss</code>), if I had a new application which I wanted to host at the subdomain <code>foo.danielbrennand.com</code>. I would create the following CNAME record:</p>
+<ul>
+<li>
+<p><strong>Type</strong>: CNAME</p>
+</li>
+<li>
+<p><strong>Name</strong>: foo</p>
+</li>
+<li>
+<p><strong>Target</strong>: freshrss.@</p>
+</li>
+<li>
+<p><strong>TTL</strong>: Auto</p>
+</li>
+<li>
+<p><strong>Proxy Status</strong>: Proxied</p>
+</li>
+</ul>
+<p>I hope you found this blog post useful in showing you how Cloudflare can be used as a DDNS provider 😃 Until next time! 👋</p>
+<h2 id=references>References<a hidden class=anchor aria-hidden=true href=#references>#</a></h2>
+<section class=footnotes role=doc-endnotes>
+<hr>
+<ol>
+<li id=fn:1 role=doc-endnote>
+<p><a href=https://www.cloudflare.com/learning/dns/glossary/dynamic-dns/>https://www.cloudflare.com/learning/dns/glossary/dynamic-dns/</a>&#160;<a href=#fnref:1 class=footnote-backref role=doc-backlink>&#8617;&#xfe0e;</a></p>
+</li>
+</ol>
+</section>
+</div>
+<footer class=post-footer>
+<ul class=post-tags>
+<li><a href=https://danielbrennand.com/tags/dynamic-dns/>Dynamic DNS</a></li>
+<li><a href=https://danielbrennand.com/tags/ddns/>DDNS</a></li>
+<li><a href=https://danielbrennand.com/tags/cloudflare/>Cloudflare</a></li>
+<li><a href=https://danielbrennand.com/tags/docker/>Docker</a></li>
+<li><a href=https://danielbrennand.com/tags/containers/>Containers</a></li>
+</ul>
+</footer>
+</article>
+</main>
+<footer class=footer>
+<span>&copy; 2021 <a href=https://danielbrennand.com>Daniel Brennand</a></span>
+<span>
+Powered by
+<a href=https://gohugo.io/ rel="noopener noreferrer" target=_blank>Hugo</a> &
+        <a href=https://git.io/hugopapermod rel=noopener target=_blank>PaperMod</a>
+</span>
+</footer>
+<a href=#top aria-label="go to top" title="Go to Top (Alt + G)">
+<button class=top-link id=top-link type=button accesskey=g><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 12 6" fill="currentcolor"><path d="M12 6H0l6-6z"/></svg>
+</button>
+</a>
+<script>let menu=document.getElementById('menu');menu.scrollLeft=localStorage.getItem("menu-scroll-position"),menu.onscroll=function(){localStorage.setItem("menu-scroll-position",menu.scrollLeft)},document.querySelectorAll('a[href^="#"]').forEach(a=>{a.addEventListener("click",function(b){b.preventDefault();var a=this.getAttribute("href").substr(1);window.matchMedia('(prefers-reduced-motion: reduce)').matches?document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView():document.querySelector(`[id='${decodeURIComponent(a)}']`).scrollIntoView({behavior:"smooth"}),a==="top"?history.replaceState(null,null," "):history.pushState(null,null,`#${a}`)})})</script>
+<script>var mybutton=document.getElementById("top-link");window.onscroll=function(){document.body.scrollTop>800||document.documentElement.scrollTop>800?(mybutton.style.visibility="visible",mybutton.style.opacity="1"):(mybutton.style.visibility="hidden",mybutton.style.opacity="0")}</script>
+<script>document.getElementById("theme-toggle").addEventListener("click",()=>{document.body.className.includes("dark")?(document.body.classList.remove('dark'),localStorage.setItem("pref-theme",'light')):(document.body.classList.add('dark'),localStorage.setItem("pref-theme",'dark'))})</script>
+</body>
+</html>
