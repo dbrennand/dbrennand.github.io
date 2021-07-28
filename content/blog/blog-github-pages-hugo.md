@@ -34,7 +34,7 @@ You're going to need a couple of things before you start creating your blog:
 
     - Follow the instructions for [Windows](https://gohugo.io/getting-started/installing/#windows) or [Linux](https://gohugo.io/getting-started/installing/#binary-cross-platform).
 
-    > Most likely your Operating System will be 64-bit architecture. So you would download: `hugo_extended_{version}_Windows-64bit.zip`
+    > Most likely your operating system will be 64-bit architecture. So you would download: `hugo_extended_{version}_Windows-64bit.zip`
 
     > If you have [choco](https://chocolatey.org/) installed, run the following command to install Hugo: `choco install hugo-extended -y`
 
@@ -72,7 +72,7 @@ In the site's root directory (`username.github.io`), open the `config.yml` file 
 
 Additional configuration for the Tania theme can be found [here](https://github.com/WingLim/hugo-tania#configuration).
 
-The Tania theme also requires an `articles.md` file to be created if you want to have an archive page of blog posts as shown in the [demo site](https://hugo-tania.netlify.app/articles/).
+The Tania theme also requires an `articles.md` file to be created if you want to have an archive page of blog posts as shown on the [demo site](https://hugo-tania.netlify.app/articles/).
 
 Create the `articles.md` file inside the site's content directory (`username.github.io/content`), paste the following block into it and save the file:
 
@@ -143,7 +143,7 @@ jobs:
 
 # Step 6 - Push the site's content to the GitHub repository
 
-Finally, you need to push all the site's content to the GitHub repository. To do this, run the following commands from the root directory (`username.github.io`) of the site:
+Finally, you need to push all the site's content to the GitHub repository. To do this, run the following commands from the site's root directory (`username.github.io`):
 
 1. `git add -A`
 
@@ -155,9 +155,9 @@ Finally, you need to push all the site's content to the GitHub repository. To do
 
 Go to https://github.com/username/username.github.io/settings/pages and perform the following steps:
 
-1. Make sure the source branch is set to **main**.
+1. Set the source branch to **main**.
 
-2. Make sure the source folder is set to **/ (root)**.
+2. Set the source folder to **/ (root)**.
 
 3. Press **Save**.
 
