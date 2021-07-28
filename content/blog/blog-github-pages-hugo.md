@@ -10,7 +10,7 @@ Welcome :wave:
 
 In this blog post, I will be showing you how to create a blog for **free** using GitHub Pages and Hugo.
 
-I will walk you through the process of creating the GitHub repository (where your blog will live), creating your Hugo site, adding a theme for your blog :art:, creating your first blog post and automating the publishing of the blog!
+I will walk you through the process of creating the GitHub repository (where your blog will live), creating your Hugo site, adding a theme to your blog :art:, creating your first blog post and automating the publishing process!
 
 # What is GitHub Pages and Hugo?
 
