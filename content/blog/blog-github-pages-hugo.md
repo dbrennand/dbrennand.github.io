@@ -24,9 +24,9 @@ You're going to need a couple of things before you start creating your blog:
 
 1. A [GitHub](https://github.com/signup) account.
 
-2. [Git](https://docs.github.com/en/get-started/quickstart/set-up-git#setting-up-git).
+2. Git.
 
-    - Follow the instructions for installing Git, setting up your username, commit email address and caching your GitHub credentials using a credential helper.
+    - Follow the instructions for [installing Git]((https://docs.github.com/en/get-started/quickstart/set-up-git#setting-up-git)), setting up your username, commit email address.
 
 3. Hugo.
 
@@ -42,15 +42,15 @@ You're going to need a couple of things before you start creating your blog:
 
 Create a [new](https://github.com/new) **public** GitHub repository named *username.github.io*. Where *username* is your GitHub username. For example, if your GitHub username was *bumblebee*, then you would enter *bumblebee.github.io*.
 
-Enter the following command in a terminal to clone the repository to your machine (providing your GitHub username instead of *username*): `git clone https://github.com/username/username.github.io.git`
+Enter the following command in a terminal to clone the repository to your machine (providing your GitHub username instead of *username*). Enter your GitHub credentials when prompted: `git clone https://github.com/username/username.github.io.git`
 
-Now, create a new branch using the following command: ` cd username.github.io.git; git checkout -b source`
+Now, change directory and change the default branch to *source* using the following command: ` cd username.github.io; git branch -M source`
 
 **For the rest of this post, substitute *username* for your GitHub username.**
 
 # Step 2 - Initalising your Hugo site
 
-Run the following command to initalise your site: `hugo new site -f yml .`
+Run the following command to initalise your site: `hugo new site . -f yml --force`
 
 You should see the following output:
 
@@ -145,11 +145,11 @@ jobs:
 
 Finally, you need to push all the site's content to the GitHub repository. To do this, run the following commands from the site's root directory (`username.github.io`):
 
-1. `git add -A`
+1. Stage all of the site's content ready to commit: `git add -A`
 
-2. `git commit -m "Publishing my first blog post."`
+2. Create a commit message to go along with the site's content: `git commit -m "Publishing my first blog post."`
 
-3. `git push`
+3. Push the commit to the source branch: `git push -u origin source`
 
 # Step 7 - Configuring GitHub Pages for your GitHub repository
 
