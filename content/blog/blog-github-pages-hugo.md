@@ -26,7 +26,7 @@ You're going to need a couple of things before you start creating your blog:
 
 2. Git.
 
-    - Follow the instructions for [installing Git]((https://docs.github.com/en/get-started/quickstart/set-up-git#setting-up-git)), setting up your username, commit email address.
+    - Follow the instructions for [installing Git](https://docs.github.com/en/get-started/quickstart/set-up-git#setting-up-git), setting up your username, commit email address.
 
 3. Hugo.
 
