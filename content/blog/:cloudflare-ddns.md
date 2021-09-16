@@ -21,7 +21,7 @@ Essentially, DDNS allows you to automatically update your DNS records when a cha
 
 ## DDNS Use Case
 
-Many Internet Service Providers (ISPs) do not provide a static IP address with their regular consumer plans. This often causes issues for those of us that enjoy self-hosting applications from home and have DNS records for a domain you own pointing to your public IP address.
+Many Internet Service Providers (ISPs) do not provide a static IP address with their regular consumer plans. This often causes issues for those of us that enjoy self-hosting applications from home, and have DNS records for a domain pointing to your public IP address.
 
 Say you're self-hosting some applications from home and have DNS records pointing to your home's public IP address. What if your router suddenly rebooted due to a software or hardware issue?
 
