@@ -87,7 +87,7 @@ domains:
     zoneId: JBFRZWzhTKtRFWgu3X7f4YLX
 ```
 
-The container will update your DNS record(s) with your public IP address every 5 minutes.
+The container will update your DNS record with your public IP address every 5 minutes.
 
 Once you have your configuration file, use the following command to start the docker-cloudflare container:
 
@@ -122,7 +122,7 @@ Congratulations, you're now using Cloudflare as a DDNS provider! :smile: :star:
 
 ### Bonus - Using a Discord Webhook for updates
 
-A few months ago I looked into using Discord webhooks to receive updates for when my DNS record(s) were updated by the container.
+A few months ago I looked into using Discord webhooks to receive updates for when my DNS records were updated by the container.
 
 I submitted a [PR](https://github.com/joshuaavalon/docker-cloudflare/pull/51) because I wanted to send a specific message along with the webhook payload. After discussion with the author, a webhook `formatter` was added which I tested using a Discord webhook.
 
