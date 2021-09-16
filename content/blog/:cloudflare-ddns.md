@@ -17,7 +17,7 @@ In this blog post, I will be showing you how to use Cloudflare as a Dynamic DNS 
 >
 > <cite>Cloudflare glossary: Dynamic DNS [^1]</cite>
 
-Essentially, DDNS allows you to automatically update your DNS records when a change is detected to your public IP address.
+Essentially, DDNS allows you to automatically update your domain's DNS records when a change is detected to your home's public IP address.
 
 ## DDNS Use Case
 
