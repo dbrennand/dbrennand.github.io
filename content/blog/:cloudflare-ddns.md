@@ -1,28 +1,31 @@
 ---
 title: "Using Cloudflare as a Dynamic DNS (DDNS) provider"
-date: 2020-07-26T17:46:07+01:00
+date: 2021-09-16T18:13:30+01:00
 description: "How to use Cloudflare as a DDNS provider."
 draft: false
 tags: ["Dynamic DNS", "DDNS", "Cloudflare", "Docker", "Containers"]
 showToc: true
 ---
 
-This blog post will show you how to use Cloudflare as a Dynamic DNS (DDNS) provider.
+Hey there! :wave:
+
+In this blog post, I will be showing you how to use Cloudflare as a Dynamic DNS (DDNS) provider.
 
 ## What is DDNS?
 
 > Dynamic DNS (DDNS) is a service that keeps the Domain Name System (DNS) updated with a web property’s correct IP address.
+>
 > <cite>Cloudflare glossary: Dynamic DNS [^1]</cite>
 
-Essentially, DDNS allows you to automatically update your DNS records when a change is detected to your public IP address.
+Essentially, DDNS allows you to automatically update your domain's DNS records when a change is detected to your home's public IP address.
 
-## DDNS Common Use Case
+## DDNS Use Case
 
-Many Internet Service Providers (ISPs) do not provide their customers with a static public IP address. This can cause issues for people who self-host applications from home and have DNS records pointing to their ISP provided public IP address.
+Many Internet Service Providers (ISPs) do not provide a static IP address with their regular consumer plans. This often causes issues for those of us that enjoy self-hosting applications from home.
 
-Say you are hosting some applications from home and have DNS records pointing to your home's public IP address. What if you router suddenly rebooted due to a software or hardware issue?
+Say you're self-hosting some applications from home and have DNS records pointing to your home's public IP address. What if your router suddenly rebooted due to a software or hardware issue?
 
-Your ISP **may** assign you with a new public IP address causing your applications to be inaccessible. This is an example of where DDNS could help.
+Your ISP **may** assign you with a new public IP address causing your applications to be inaccessible :cold_sweat: This is an example of where DDNS could help.
 
 With DDNS, you can ensure your DNS records are automatically kept up to date when your home's public IP address changes :thumbsup:
 
@@ -40,169 +43,135 @@ However, for this blog post, we are obviously focusing on using Cloudflare :smil
 
 ## Using Cloudflare as a DDNS provider
 
-We will be using the [docker-cloudflare-ddns](https://github.com/oznu/docker-cloudflare-ddns) docker container created by [oznu](https://github.com/oznu) to use Cloudflare as a DDNS provider.
+We will be using joshuaavalon's [docker-cloudflare](https://github.com/joshuaavalon/docker-cloudflare) container to use Cloudflare as a DDNS provider.
+
+There are many Cloudflare DDNS containers out there. The reason I use this one is because:
+
+- It's [multi-architecture](https://github.com/joshuaavalon/docker-cloudflare/pkgs/container/cloudflare-ddns)
+
+  - ARM FTW! 🥧
+
+- It has a minimal [configuration file](https://github.com/joshuaavalon/docker-cloudflare#file) supporting YAML, JSON or JavaScript. Configuration via environment variables is also supported but is considered *"legacy"*.
+
+- It provides advanced configuration options such as using an IPV(4|6) lookup service of your choice, and Webhooks to notify when DNS record updates run, succeed or fail.
 
 ### Prerequisites
 
-1. A domain managed with Cloudflare.
+1. [A Cloudflare account and domain added to Cloudflare](https://support.cloudflare.com/hc/en-us/articles/201720164-Creating-a-Cloudflare-account-and-adding-a-website).
 
-2. Docker installed on a server which can reach the Cloudflare API: `https://api.cloudflare.com/client/v4/`.
+2. Docker installed on the device which can reach the Cloudflare API: `https://api.cloudflare.com/client/v4/`
 
-3. A Cloudflare API token (see below).
+3. A Cloudflare API token. Please follow the instructions [here](https://github.com/joshuaavalon/docker-cloudflare#api-token).
 
-#### Creating a Cloudflare API Token
+  > Make sure you generate an **API Token** and **not** a Global API Key!
 
-To obtain a Cloudflare API token:
+### Using the docker-cloudflare container
 
-1. Log in to the [Cloudflare dashboard](https://dash.cloudflare.com/profile/api-tokens) to manage your API tokens.
+The minimal configuration file required for the docker-cloudflare container is the following:
 
-2. Click **Create Token**.
-
-3. Under *Custom Token*, click **Get started**.
-
-4. Provide a *Name* for the API token.
-
-5. Under *Permissions*, grant the following to the API token:
-
-    - Zone / Zone Settings / Read
-
-    - Zone / Zone / Read
-
-    - Zone / DNS / Edit
-
-    ![Cloudflare API token permissions](/images/api-token-permissions.png)
-
-6. Under *Zone Resources*, include the zone (domain) you want to grant the API token permissions to edit.
-
-![Cloudflare API token summary](/images/full-api-token.png)
-
-7. Click **Continue to summary**.
-
-8. Review the API token configuration and click **Create Token**.
-
-### Using the docker-cloudflare-ddns container
-
-The docker-cloudflare-ddns container **requires** the following environment variables:
-
-- `API_KEY`: The API token (created above) used to update a DNS record for the granted zone.
-
-- `ZONE`: The DNS zone which updates should be applied to.
-
-    - Example: `danielbrennand.com`.
-
-Notable optional environment variables:
-
-- `SUBDOMAIN`: The subdomain in the `ZONE` to update a DNS record for.
-
-    - **NOTE**: If absent, the root zone (Example: `danielbrennand.com`) DNS record will be updated.
-
-- `PROXIED`: If `true`, the proxy status on the DNS record will be set to proxy traffic through Cloudflare.
-
-- `RRTYPE`: Defaults to: `A` for IPv4. To use IPv6, you can alter the value to `AAAA`.
-
-    - **NOTE**: To use IPv6 (`AAAA`), Docker must have [IPv6 support](https://docs.docker.com/config/daemon/ipv6/) enabled.
-
-- `CRON`: The interval to check if the DNS record needs to be updated. Defaults to: `*/5 * * * *` (5 minutes).
-
-    - For useful cron examples, see [here](https://crontab.guru/examples.html).
-
-Other environment variables can be found [here](https://github.com/oznu/docker-cloudflare-ddns#optional-parameters).
-
-**NOTE**: If the DNS record to be updated does not exist, it will be created automatically.
-
-#### Deployment Examples
-
-I will be using my domain in the examples below. Make sure you alter it to your domain! :laughing:
-
-##### Example 1:
-
-Update the DNS record for the subdomain `freshrss` in the zone `danielbrennand.com` with traffic proxied through Cloudflare.
-
-```bash
-docker run -d --name cloudflare \
-  -e API_KEY="Insert your Cloudflare API token here." \
-  -e ZONE="danielbrennand.com" \
-  -e SUBDOMAIN="freshrss" \
-  -e PROXIED="true" \
-  oznu/cloudflare-ddns
+```yaml
+# config.yaml
+auth:
+  # Provide your API token here!
+  scopedToken: QPExdfoNLwndJPDbt4nK9-yF1z_srC8D0m6-Gv_h
+domains:
+  # Remember to change this to your domain!
+  - name: ddns.yourdomain.com
+    # The type of record that is created
+    type: A
+    # Determines the proxy status for the record
+    proxied: true
+    # If the record does not exist, create it
+    create: true
+    # zoneId could also be yourdomain.com if the Cloudflare API token is granted #zone:read permissions
+    zoneId: JBFRZWzhTKtRFWgu3X7f4YLX
 ```
 
-##### Example 2:
+The container will update your DNS record with your public IP address every 5 minutes.
 
-Update the DNS record for the root zone `danielbrennand.com`.
+Once you have your configuration file, use the following command to start the docker-cloudflare container:
 
-```bash
-docker run -d --name cloudflare \
-  -e API_KEY="Insert your Cloudflare API token here." \
-  -e ZONE="danielbrennand.com" \
-  oznu/cloudflare-ddns
-```
+`docker run --name cloudflare-ddns -d -v ./config.yaml:/app/config.yaml joshava/cloudflare-ddns`
 
-##### Example 3:
-
-Update the DNS record with the public IPv6 address for the subdomain `freshrss` in the zone `danielbrennand.com` with traffic proxied through Cloudflare.
-
-**NOTE**: Remember, for this example to work, you must have [IPv6 support](https://docs.docker.com/config/daemon/ipv6/) enabled in Docker.
-
-```bash
-docker run -d --name cloudflare \
-  -e API_KEY="Insert your Cloudflare API token here." \
-  -e ZONE="danielbrennand.com" \
-  -e SUBDOMAIN="freshrss" \
-  -e RRTYPE="AAAA" \
-  -e PROXIED="true" \
-  oznu/cloudflare-ddns
-```
-
-##### Example 4:
-
-Update the DNS record for the subdomain `freshrss` in the zone `danielbrennand.com` on an interval of 1 hour.
-
-```bash
-docker run -d --name cloudflare \
-  -e API_KEY="Insert your Cloudflare API token here." \
-  -e ZONE="danielbrennand.com" \
-  -e SUBDOMAIN="freshrss" \
-  -e CRON="0 * * * *" \
-  oznu/cloudflare-ddns
-```
-
-If successful, observing the container logs using `docker logs cloudflare` will look similar to the following output:
-
-The following logs are from Example 1.
+Once started, you should see something similar to the following when running `docker logs cloudflare-ddns`:
 
 ```
 [cont-init.d] executing container initialization scripts...
-[cont-init.d] 30-cloudflare-setup: executing...
-DNS Zone: danielbrennand.com (619du4059a9354492r54e6702834ao62)
-DNS record for 'freshrss.danielbrennand.com' was not found in danielbrennand.com zone. Creating now...
-DNS Record: freshrss.danielbrennand.com (bde8a4987aj8ede16d62d7479d967f3l)
-[cont-init.d] 30-cloudflare-setup: exited 0.
-[cont-init.d] 50-ddns: executing...
-No DNS update required for freshrss.danielbrennand.com (Public IPv4 address here).
+[cont-init.d] 10-adduser: executing...
+usermod: no changes
+
+Initializing container
+
+User uid: 1001
+User gid: 1001
+
+[cont-init.d] 10-adduser: exited 0.
+[cont-init.d] 11-cron: executing...
+Setting crontab to */5 * * * *
+[cont-init.d] 11-cron: exited 0.
+[cont-init.d] done.
+[services.d] starting services
+[services.d] done.
+2021-09-16T18:02:57.903Z [info] Cloudflare DDNS start
+2021-09-16T18:03:00.026Z [info] Skipped updating.
+2021-09-16T18:03:00.027Z [info] Updated ddns.yourdomain.com with <your public IP>
+2021-09-16T18:03:00.028Z [info] Cloudflare DDNS end
 ```
 
-### Multiple Subdomains
+Congratulations, you're now using Cloudflare as a DDNS provider! :smile: :star:
 
-Your probably thinking, what if I wanted multiple subdomains pointing to my public IP address. Do I have to run this container for each of them!?
+### Bonus - Using a Discord Webhook for updates
 
-Nope! :smile:
+A few months ago I looked into using Discord webhooks to receive updates for when my DNS records were updated by the container.
 
-You can create CNAME records pointing to the A record referencing your public IP address.
+I submitted a [PR](https://github.com/joshuaavalon/docker-cloudflare/pull/51) because I wanted to send a specific message along with the webhook payload. After discussion with the author, a webhook `formatter` was added which I tested using a Discord webhook.
 
-Continuing with the example subdomain above (`freshrss`), if I had a new application which I wanted to host at the subdomain `foo.danielbrennand.com`. I would create the following CNAME record:
+Firstly, you need to [create a Discord webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) for a channel on your server. Once created, provide the webhook URL in the config below.
 
-- **Type**: CNAME
+To use the `formatter`, you need to use a JavaScript configuration file similar to the following:
 
-- **Name**: foo
+```javascript
+// config.js
+const formatter = (status, data) => {
+  if (status === "run") {
+    return { content: "Updating DNS record." };
+  } else {
+    return { content: JSON.stringify(data) };
+  }
+};
 
-- **Target**: freshrss.@
+const config = {
+  auth: {
+    scopedToken: "QPExdfoNLwndJPDbt4nK9-yF1z_srC8D0m6-Gv_h"
+  },
+  domains: [
+    {
+      // Remember to change to your domain!
+      name: "ddns.yourdomain.com",
+      type: "A",
+      proxied: true,
+      create: true,
+      // Remember to change the zone ID!
+      zoneId: "JBFRZWzhTKtRFWgu3X7f4YLX",
+      webhook: {
+        // Make sure you edit the webhook URL below to your own!
+        run: "https://discord.com/api/webhooks/111111233445566678/py-D6zAc4IolXBoA7gslLAJc0WKO3KPU1eOxSNzX6qlkCBsqIP8EGILj-ALraivIbs6n",
+        success: "https://discord.com/api/webhooks/111111233445566678/py-D6zAc4IolXBoA7gslLAJc0WKO3KPU1eOxSNzX6qlkCBsqIP8EGILj-ALraivIbs6n",
+        failure: "https://discord.com/api/webhooks/111111233445566678/py-D6zAc4IolXBoA7gslLAJc0WKO3KPU1eOxSNzX6qlkCBsqIP8EGILj-ALraivIbs6n",
+        formatter
+      }
+    }
+  ]
+};
 
-- **TTL**: Auto
+module.exports = config;
+```
 
-- **Proxy Status**: Proxied
+As the configuration file has changed from YAML to JavaScript, the docker run command used before is slightly different: `docker run --name cloudflare-ddns -d -v ./config.js:/app/config.js joshava/cloudflare-ddns`
 
-I hope you found this blog post useful in showing you how Cloudflare can be used as a DDNS provider :smiley: Until next time! :wave:
+Once running, you should see messages appearing in the Discord channel when a DNS record update occurs!
+
+I hope you found this blog post useful! Until next time! :smile:
 
 ## References
 
