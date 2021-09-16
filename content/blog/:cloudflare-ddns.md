@@ -51,7 +51,7 @@ There are many Cloudflare DDNS containers out there. The reason I use this one i
 
   - ARM FTW! 🥧
 
-- It has a minimal [configuration file](https://github.com/joshuaavalon/docker-cloudflare#file) supporting YAML, JSON or a JavaScript file. Configuration via environment variables is also supported but is considered *"legacy"*.
+- It has a minimal [configuration file](https://github.com/joshuaavalon/docker-cloudflare#file) supporting YAML, JSON or JavaScript. Configuration via environment variables is also supported but is considered *"legacy"*.
 
 - It provides advanced configuration options such as using an IPV(4|6) lookup service of your choice, and Webhooks to notify when DNS record updates run, succeed or fail.
 
