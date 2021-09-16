@@ -51,7 +51,7 @@ There are many Cloudflare DDNS containers out there. The reason I use this one i
 
   - ARM FTW! 🥧
 
-- It has a minimal [configuration file](https://github.com/joshuaavalon/docker-cloudflare#file) supporting YAML, JSON or a Javascript file. Configuration via environment variables is also supported but is considered *"legacy"*.
+- It has a minimal [configuration file](https://github.com/joshuaavalon/docker-cloudflare#file) supporting YAML, JSON or a JavaScript file. Configuration via environment variables is also supported but is considered *"legacy"*.
 
 - It provides more advanced configuration options such as using an IPV(4|6) lookup service of your choice, and Webhooks to notify when DNS record updates run, succeed or fail.
 
@@ -128,7 +128,7 @@ I submitted a [PR](https://github.com/joshuaavalon/docker-cloudflare/pull/51) be
 
 Firstly, you need to [create a Discord webhook](https://support.discord.com/hc/en-us/articles/228383668-Intro-to-Webhooks) for a channel on your server. Once created, provide the webhook URL in the config below.
 
-To use the `formatter`, you need to use a Javascript configuration file similar to the following:
+To use the `formatter`, you need to use a JavaScript configuration file similar to the following:
 
 ```javascript
 // config.js
@@ -167,7 +167,7 @@ const config = {
 module.exports = config;
 ```
 
-As the configuration file has changed to a Javascript file, the docker run command used before is slightly different: `docker run --name cloudflare-ddns -d -v ./config.js:/app/config.js joshava/cloudflare-ddns`
+As the configuration file has changed to a JavaScript file, the docker run command used before is slightly different: `docker run --name cloudflare-ddns -d -v ./config.js:/app/config.js joshava/cloudflare-ddns`
 
 Once running, you should see messages appearing in the Discord channel when a DNS record update occurs!
 
