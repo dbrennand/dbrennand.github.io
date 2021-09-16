@@ -25,7 +25,7 @@ Many Internet Service Providers (ISPs) do not provide a static IP address with t
 
 Say you're self-hosting some applications from home and have DNS records pointing to your home's public IP address. What if your router suddenly rebooted due to a software or hardware issue?
 
-Your ISP **may** assign you with a new public IP address causing your applications to be inaccessible. This is an example of where DDNS could help.
+Your ISP **may** assign you with a new public IP address causing your applications to be inaccessible :cold_sweat: This is an example of where DDNS could help.
 
 With DDNS, you can ensure your DNS records are automatically kept up to date when your home's public IP address changes :thumbsup:
 
@@ -167,7 +167,7 @@ const config = {
 module.exports = config;
 ```
 
-As the configuration file has changed to a JavaScript file, the docker run command used before is slightly different: `docker run --name cloudflare-ddns -d -v ./config.js:/app/config.js joshava/cloudflare-ddns`
+As the configuration file has changed from YAML to JavaScript, the docker run command used before is slightly different: `docker run --name cloudflare-ddns -d -v ./config.js:/app/config.js joshava/cloudflare-ddns`
 
 Once running, you should see messages appearing in the Discord channel when a DNS record update occurs!
 
