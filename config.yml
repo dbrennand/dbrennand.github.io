@@ -2,45 +2,65 @@ baseURL: https://danielbrennand.com
 title: Daniel Brennand
 theme: hugo-PaperMod
 
-# Enable emojis in blog content
-enableEmoji: true
-
+# Theme specific config
 params:
-    author: Daniel Brennand
-    comments: false
-    ShowReadingTime: true
-    ShowToc: true
-    ShowShareButtons: false
-    defaultTheme: auto
-    cover:
-        responsiveImages: true
-        linkFullImages: false
-    # Home info mode parameters
-    homeInfoParams:
-        Title: Hi, I'm Daniel Brennand 👋
+  author: Daniel Brennand
+  keywords:
+    - Blog
+    - Personal Website
+  defaultTheme: auto
+  cover:
+    responsiveImages: true
+    linkFullImages: false
+  comments: false
+  ShowShareButtons: true
+  ShowReadingTime: true
+  ShowToc: true
+  ShowBreadCrumbs: true
+  ShowPostNavLinks: true
+  ShowCodeCopyButtons: true
+  hidemeta: false
+  # Home info mode parameters
+  homeInfoParams:
+    Title: Hi, I'm Daniel Brennand 👋
+    Content: |
+      Blogging about self-hosting 🖥️🥧
 
-    socialIcons:
-        - name: github
-          url: https://github.com/dbrennand
-        - name: email
-          url: bWFpbHRvOmNvbnRhY3RAZGFuaWVsYnJlbm5hbmQuY29tCg==
-        - name: linkedin
-          url: https://www.linkedin.com/in/daniel-brennand/
+      Likely working on something related to Python, JavaScript, PowerShell, Azure, Kubernetes or Docker 👨‍💻
+
+  socialIcons:
+    - name: github
+      url: https://github.com/dbrennand
+    - name: email
+      url: bWFpbHRvOmNvbnRhY3RAZGFuaWVsYnJlbm5hbmQuY29tCg==
+    - name: linkedin
+      url: https://www.linkedin.com/in/dbrenuk
+    - name: twitter
+      url: "https://twitter.com/dbrenuk"
 
 menu:
-    main:
-        - identifier: Blog
-          name: Blog
-          url: /blog
-          weight: 10
-        - identifier: Tags
-          name: Tags
-          url: /tags
-          weight: 20
-        - identifier: Archive
-          name: Archive
-          url: /archives
-          weight: 30
+  main:
+    - identifier: Blog
+      name: Blog
+      url: /blog
+      weight: 10
+    - identifier: Tags
+      name: Tags
+      url: /tags
+      weight: 20
+    - identifier: Archive
+      name: Archive
+      url: /archives
+      weight: 30
+    - identifier: PS2Alert.me
+      name: PS2Alert.me
+      url: https://ps2alert.me/
+      weight: 40
+
+# Hugo config
+
+# Enable emojis in blog content
+enableEmoji: true
 
 privacy:
   disqus:
