@@ -47,13 +47,13 @@ We will be using joshuaavalon's [docker-cloudflare](https://github.com/joshuaava
 
 There are many Cloudflare DDNS containers out there. The reason I use this one is because:
 
-- It's [multi-architecture](https://github.com/joshuaavalon/docker-cloudflare/pkgs/container/cloudflare-ddns)
+- It's [multi-architecture](https://github.com/joshuaavalon/docker-cloudflare/pkgs/container/cloudflare-ddns) meaning the container image can run on amd64, ARM/v6, ARM/v7 and ARM64 based devices.
 
   - ARM FTW! 🥧
 
 - It has a minimal [configuration file](https://github.com/joshuaavalon/docker-cloudflare#file) supporting YAML, JSON or JavaScript. Configuration via environment variables is also supported but is considered *"legacy"*.
 
-- It provides advanced configuration options such as using an IPV(4|6) lookup service of your choice, and Webhooks to notify when DNS record updates run, succeed or fail.
+- It provides advanced configuration options such as using an IPv(4|6) lookup service of your choice, and Webhooks to notify when DNS record updates run, succeed or fail.
 
 ### Prerequisites
 
