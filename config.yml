@@ -4,7 +4,9 @@ theme: hugo-PaperMod
 
 # Theme specific config
 params:
+  env: production
   author: Daniel Brennand
+  description: Daniel Brennand - Blog | Personal Website
   keywords:
     - Blog
     - Personal Website
@@ -58,7 +60,7 @@ menu:
       weight: 40
 
 # Hugo config
-
+enableRobotsTXT: true
 # Enable emojis in blog content
 enableEmoji: true
 
