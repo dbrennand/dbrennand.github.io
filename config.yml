@@ -36,7 +36,7 @@ params:
     - name: linkedin
       url: https://www.linkedin.com/in/dbrenuk
     - name: twitter
-      url: "https://twitter.com/dbrenuk"
+      url: https://twitter.com/dbrenuk
 
 menu:
   main:
