@@ -3,8 +3,11 @@ title: Daniel Brennand
 theme: hugo-PaperMod
 
 # Theme specific config
+# https://github.com/adityatelange/hugo-PaperMod
 params:
+  env: production
   author: Daniel Brennand
+  description: Daniel Brennand - Blog | Personal Website
   keywords:
     - Blog
     - Personal Website
@@ -36,7 +39,7 @@ params:
     - name: linkedin
       url: https://www.linkedin.com/in/dbrenuk
     - name: twitter
-      url: "https://twitter.com/dbrenuk"
+      url: https://twitter.com/dbrenuk
 
 menu:
   main:
@@ -58,7 +61,7 @@ menu:
       weight: 40
 
 # Hugo config
-
+enableRobotsTXT: true
 # Enable emojis in blog content
 enableEmoji: true
 
