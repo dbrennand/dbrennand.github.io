@@ -3,6 +3,7 @@ title: Daniel Brennand
 theme: hugo-PaperMod
 
 # Theme specific config
+# https://github.com/adityatelange/hugo-PaperMod
 params:
   env: production
   author: Daniel Brennand
