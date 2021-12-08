@@ -45,7 +45,7 @@ An example of an object key could be `Testing/Requirements.pdf` or `Accounting/P
 
 A bucket has a flat structure with no actual concept of directories however, you can prefix object keys with (sub)directories to create a directory structure 📁
 
-Now that's out of the way, lets begin interacting with the ECS S3 API using the @aws-sdk/client-s3 for JavaScript 😎
+Now that's out of the way, let's begin interacting with the ECS S3 API using the @aws-sdk/client-s3 for JavaScript 😎
 
 ## Prerequisites
 
@@ -105,7 +105,7 @@ const client = new S3Client({
 
 ### Sending Commands with the S3Client
 
-Now, lets use the `S3Client` to create an object in a bucket. For this type of action use the `PutObjectCommand`:
+Now, let's use the `S3Client` to create an object in a bucket. For this type of action use the `PutObjectCommand`:
 
 #### Create an Object
 
@@ -129,7 +129,7 @@ try {
 };
 ```
 
-Lets see if it works! :smile: Build and run the container image:
+Let's see if it works! :smile: Build and run the container image:
 
 ```bash
 docker build -t aws-sdk-s3:nodejs .
@@ -191,7 +191,7 @@ try {
 
 #### Upload and Download Objects
 
-Uploading and downloading objects is done often, so below is examples I wrote for this:
+Uploading and downloading objects is done often, so below are examples I wrote for this:
 
 ```javascript
 // ...
