@@ -1,7 +1,7 @@
 ---
 title: "Use youtube-dl to download a streamed video"
 date: 2021-12-19T22:21:42Z
-draft: true
+draft: false
 tags: ["youtube-dl", "download", "streamed", "video"]
 showToc: true
 ---
@@ -34,9 +34,9 @@ In my example, the Transport Stream playlist file URL was similar to: `https://x
 
 # Downloading a Streamed Video using youtube-dl ⬇️
 
-## Verifying the Transport Stream Playlist File URL :link:
-
 To download the streamed video I used [mikenye's youtube-dl container image](https://github.com/mikenye/docker-youtube-dl).
+
+## Verifying the Transport Stream Playlist File URL :link:
 
 To verify that you have the correct playlist file URL, run youtube-dl with the `-F` option to list all available formats:
 
@@ -87,7 +87,7 @@ You should see youtube-dl identify each `.ts` file in the playlist, read its con
 ...
 [https @ 0x561d074eadc0] Opening 'https://x.cloudfront.net/x_vods/_definst_/xvods/x-vod/vb/11111_2021-11-22_12355F4.mp4/media_w123456789_308.ts' for reading
 ...
-frame=77069 fps=2670 q=-1.0 Lsize=   84894kB time=00:51:22.79 bitrate= 225.6kbits/s speed= 107x
+frame=77069 fps=2670 q=-1.0 Lsize=84894kB time=00:51:22.79 bitrate=225.6kbits/s speed=107x
 video:35021kB audio:48855kB subtitle:0kB other streams:0kB global headers:0kB muxing overhead: 1.213379%
 [ffmpeg] Downloaded 86931123 bytes
 [download] 100% of 82.90MiB in 00:30
@@ -95,4 +95,4 @@ video:35021kB audio:48855kB subtitle:0kB other streams:0kB global headers:0kB mu
 
 Absolute magic! :sparkles:
 
-I hope someone finds this blog post useful and it saves them a bit of time :hourglass: 🙂
+I hope someone finds this blog post useful and it saves them a bit of time 🙂
