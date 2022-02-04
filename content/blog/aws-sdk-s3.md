@@ -264,7 +264,7 @@ try {
 };
 ```
 
-The examples above and others that I wrote can be found on GitHub at: https://github.com/dbrennand/ecs-s3-examples/tree/nodejs/nodejs
+The examples above and others that I wrote can be found on GitHub [here](https://github.com/UKCloud/ecs-s3-examples/tree/master/nodejs).
 
 I hope you learned something from this blog post! Until next time! :smile: :wave:
 
