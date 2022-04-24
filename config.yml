@@ -27,9 +27,7 @@ params:
   homeInfoParams:
     Title: Hi, I'm Daniel Brennand 👋
     Content: |
-      Blogging about self-hosting 🖥️🥧
-
-      Likely working on something related to Python, JavaScript, PowerShell, Azure, Kubernetes or Docker 👨‍💻
+      Welcome to my blog where I write about self-hosting and different technologies 🖥️🥧👨‍💻
 
   socialIcons:
     - name: github
