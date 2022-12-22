@@ -20,7 +20,7 @@ $Credentials.Password | ConvertFrom-SecureString
 01000000d08c9ddf0115d1118c7a00c04fc297eb01000000f5ab85d7ee9da048ae4ae797ee7eaf0a000000000200000000001066000000010000200000008c4a03d2f0731e0e7661d695fda8b441eaff31e75724931f31374a0c8292b636000000000e800000000200002000000028da885828bd627480178382ce9a1b477819e7703546ce41819d37f4e63d33ba20000000ab2c4401635ec24db9f20071e18dea0b79ce16ba38b5503ec9937b7fbc849dcf40000000155053a793c210998ef7317b0161e7344c2174b904b527c0cf24e7bbf2243b99e936df3ab67bc9e285a1be33aed37c7604fb07f5d0c44ceb7d6334ca30b0a610
 ```
 
-By default DPAPI uses the current user context to generate an encryption key. This encryption key is then used to encrypt the `PSCredential.Password` property as a `System.Security.SecureString` (as shown above). You can provide your own encryption key, and you can read more about this on <cite>Travis Gan's blog [^1]</cite>.
+By default DPAPI uses the current user context to generate an encryption key. This encryption key is then used to encrypt the `PSCredential.Password` property as a `System.Security.SecureString` (as shown above). It is possible to provide your own encryption key, but I won't be covering that in this post. If you want to read more on this, check out <cite>Travis Gan's blog [^1]</cite>.
 
 It's also worth noting there are several caveats to this approach:
 
