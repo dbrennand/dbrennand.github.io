@@ -53,10 +53,6 @@ menu:
       name: Archive
       url: /archives
       weight: 30
-    - identifier: PS2Alert.me
-      name: "Personal Project: PS2Alert.me"
-      url: https://ps2alert.me/
-      weight: 40
 
 # Hugo config
 enableRobotsTXT: true
