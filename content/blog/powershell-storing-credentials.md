@@ -1,6 +1,6 @@
 ---
 title: "PowerShell: Storing Credentials Securely"
-date: 2022-12-12T20:18:10+01:00
+date: 2022-12-22T23:39:10+01:00
 draft: false
 tags: ["PowerShell", "Credentials"]
 showToc: true
@@ -113,6 +113,10 @@ Enter password:
 ********
 Enter password again for verification:
 ********
+
+# Bonus! Store metadata alongside the secret itself!
+$Metadata = @{ SecretExpiration = ([DateTime]::New(2022, 12, 22)) }
+Set-Secret -Name "REST API Creds" -Vault "MySecretVault" -Secret $RestAPICreds -Metadata $Metadata
 ```
 
 ## Retrieving Secrets
@@ -208,7 +212,7 @@ CurrentUser       Password            1800      Prompt
 
 ## Conclusion
 
-Finished! :smile: Hopefully you learned something new and found this post helpful! :slight_smile: There is a lot that I didn't cover when it comes to the SecretManagement module. For example, extensions which lets you use the module with third-party secret management products like Azure KeyVault, KeePass, HashiCorp Vault and more!
+Finished! :smile: Hopefully you learned something new and found this post helpful! :slight_smile: There is a lot that I didn't cover when it comes to the SecretManagement module. For example, extensions which create integrations with third-party secret management products like Azure KeyVault, KeePass, HashiCorp Vault and more!
 
 Until the next one! 👋
 
