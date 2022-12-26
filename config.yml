@@ -2,12 +2,18 @@ baseURL: https://danielbrennand.com
 title: Daniel Brennand
 theme: hugo-PaperMod
 
+outputs:
+  home:
+    - HTML
+    - RSS
+    - JSON
+
 # Theme specific config
 # https://github.com/adityatelange/hugo-PaperMod
 params:
   env: production
   author: Daniel Brennand
-  description: Daniel Brennand - Blog | Personal Website
+  description: Daniel Brennand - Blog & Personal Website
   keywords:
     - Blog
     - Personal Website
@@ -27,7 +33,8 @@ params:
   homeInfoParams:
     Title: Hi, I'm Daniel Brennand 👋
     Content: |
-      Welcome to my blog where I write about self-hosting and different technologies 🖥️🥧👨‍💻
+      Welcome to my blog! ✍
+      I'm a Service Delivery Engineer 🛠 passionate about DevOps, self-hosting and developing open source software.
 
   socialIcons:
     - name: github
@@ -58,17 +65,3 @@ menu:
 enableRobotsTXT: true
 # Enable emojis in blog content
 enableEmoji: true
-
-privacy:
-  disqus:
-    disable: true
-  googleAnalytics:
-    disable: true
-  instagram:
-    disable: true
-  twitter:
-    disable: true
-  vimeo:
-    disable: true
-  youtube:
-    disable: true
