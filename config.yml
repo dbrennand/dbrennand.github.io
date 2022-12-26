@@ -34,6 +34,7 @@ params:
     Title: Hi, I'm Daniel Brennand 👋
     Content: |
       Welcome to my blog! ✍
+
       I'm a Service Delivery Engineer 🛠 passionate about DevOps, self-hosting and developing open source software.
 
   socialIcons:
@@ -52,14 +53,17 @@ menu:
       name: Blog
       url: /blog
       weight: 10
+    - name: Search
+      url: /search
+      weight: 20
     - identifier: Tags
       name: Tags
       url: /tags
-      weight: 20
+      weight: 30
     - identifier: Archive
       name: Archive
       url: /archives
-      weight: 30
+      weight: 40
 
 # Hugo config
 enableRobotsTXT: true
