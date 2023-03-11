@@ -96,6 +96,8 @@ See the [Ansible playbook documentation](https://docs.ansible.com/ansible/latest
 
 Modules are the building blocks for doing anything in Ansible. Each task in a playbook uses a module and there are many modules available for use right out of the box. Modules can perform a wide range of tasks such as installing packages, managing users, configuring services and more. The example playbook above uses the built-in [`package`](https://docs.ansible.com/ansible/latest/collections/ansible/builtin/package_module.html) module to install Nginx on the `webservers`.
 
+Furthermore, most modules provide idempotency which means it will check whether the desired state is already present before making changes. This ensures that the state of the server is kept consistent and speeds up our playbook runs! :rocket:
+
 Plugins allow us to extend Ansible's core functionality. There are many types of plugins in Ansible. Some examples include:
 
 - Inventory plugins to create dynamic inventory.
