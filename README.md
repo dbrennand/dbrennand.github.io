@@ -26,7 +26,15 @@ Blog | Personal Website
 3. View changes locally:
 
     ```bash
-    hugo serve
+    hugo server -D
     ```
 
 4. When `draft:false`, raise PR to merge into the `source` branch. Upon merging, the [GitHub action](.github/workflows/gh-pages.yml) will run and build the site ✨
+
+## Update Hugo Theme
+
+Run the following command to update the Hugo theme:
+
+```bash
+git submodule update --remote --merge
+```
