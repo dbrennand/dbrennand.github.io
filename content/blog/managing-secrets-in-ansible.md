@@ -14,7 +14,7 @@ Ready... set... go! 🚀
 
 # Managing Secrets in Ansible 🔑
 
-As with most automation, we need to use credentials to authenticate to our servers and other applications. Examples of these secrets include usernames and passwords, API keys, SSH keys, etc. When using these types of secrets in playbooks, we need to store them securely but also still allow Ansible to access them when needed.
+As with most automation, we need to use credentials to authenticate to our servers and other applications. Examples of secrets include usernames and passwords, API keys, SSH keys, etc. When using these types of secrets in playbooks, we need to store them securely but also still allow Ansible to access them when needed.
 
 # Introducing Ansible Vault 🔐
 
