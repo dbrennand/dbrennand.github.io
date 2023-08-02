@@ -1,7 +1,7 @@
 ---
 title: "Testing Ansible Content with Molecule"
 date: 2023-07-30T16:14:50+01:00
-draft: true
+draft: false
 tags: ["Ansible", "Testing", "Molecule"]
 showToc: true
 ---
