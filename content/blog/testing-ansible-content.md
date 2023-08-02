@@ -26,9 +26,9 @@ Molecule has several terms that are used throughout the documentation. Let's go 
 
 ## Instances & Drivers 🚗
 
-Molecule instances are what your Ansible content is executed against. Instances are created using a driver. Molecule has several drivers for handling the creation and destruction of instances. The drivers are currently located in [ansible-community/molecule-plugins](https://github.com/ansible-community/molecule-plugins).
+Molecule instances are what your Ansible content is executed against. Instances are created using a driver. Molecule has several drivers for handling the creation and destruction of instances. The drivers are currently located in [ansible-community/molecule-plugins](https://github.com/ansible-community/molecule-plugins) repository.
 
-For example, the default [Docker driver](https://github.com/ansible-community/molecule-plugins/blob/main/src/molecule_plugins/docker/driver.py) can be used to create a container instance and the [Vagrant driver](https://github.com/ansible-community/molecule-plugins/blob/main/src/molecule_plugins/vagrant/driver.py) can be used to create a virtual machine instance.
+For example, the default [Docker driver](https://github.com/ansible-community/molecule-plugins/blob/main/src/molecule_plugins/docker/driver.py) can be used to create a container instance and the [Vagrant driver](https://github.com/ansible-community/molecule-plugins/blob/main/src/molecule_plugins/vagrant/driver.py) can create a virtual machine instance.
 
 ## Scenarios 📖
 
@@ -38,7 +38,7 @@ There should always be a `default` scenario which is used to test Ansible conten
 
 ## Molecule Directory Structure 📁
 
-A basic Molecule directory structure is as follows:
+A basic Molecule directory structure is:
 
 ```
 molecule
@@ -69,12 +69,12 @@ The `molecule.yml` file contains configuration for each Molecule component[^2]:
 
 <!-- Create a Markdown table with 2 columns: Molecule Component and Description -->
 
-| Molecule Component                                                                                 | Description                                                                                                                        |
+| Component                                                                                          | Description                                                                                                                        |
 | -------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
 | [Dependency Manager](https://ansible.readthedocs.io/projects/molecule/configuration/#dependency)   | Molecule uses [Ansible Galaxy](https://galaxy.ansible.com/) as the default manager for resolving role and collection dependencies. |
 | [Driver](https://ansible.readthedocs.io/projects/molecule/configuration/#driver)                   | [Instances & Drivers](#instances--drivers-).                                                                                       |
 | [Platforms (Instances)](https://ansible.readthedocs.io/projects/molecule/configuration/#platforms) | Defines instances to be created by the driver for the scenario.                                                                    |
-| [Provisioner](https://ansible.readthedocs.io/projects/molecule/configuration/#provisioner)         | Molecule uses Ansible as the provisioner. The provisioner manages the life cycle of instances.                                     |
+| [Provisioner](https://ansible.readthedocs.io/projects/molecule/configuration/#provisioner)         | Molecule uses Ansible as the provisioner. The provisioner manages the life cycle of instances by communicating with the driver.    |
 | [Scenario](https://ansible.readthedocs.io/projects/molecule/configuration/#scenario)               | Molecule's default scenario configuration can be overridden for full control over each sequence.                                   |
 | [Verifier](https://ansible.readthedocs.io/projects/molecule/configuration/#verifier)               | Molecule uses Ansible as the verifier. The verifier uses the `verify.yml` playbook to check the state of the instance.             |
 
@@ -114,7 +114,7 @@ Now that we have covered the basics, let's test an Ansible playbook with Molecul
 
 ## Demo 📺
 
-I've created a [demo repository](https://github.com/dbrennand/molecule-demo) which contains a simple playbook to install `nginx` on a Debian-based Linux distribution. You'll need to have Docker and Python installed to use the repository.
+I've created a [demo repository](https://github.com/dbrennand/molecule-demo) which contains a simple playbook to install `nginx` on a Debian container instance. You'll need to have Docker and Python installed to use the repository.
 
 Begin by cloning the repository:
 
