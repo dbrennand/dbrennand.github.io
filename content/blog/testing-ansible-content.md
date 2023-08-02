@@ -239,7 +239,7 @@ localhost                  : ok=3    changed=2    unreachable=0    failed=0    s
 
 Tada! You've just tested an Ansible playbook with Molecule! ✨🎉
 
-We now have peace of mind that our playbook works as expected!
+We now have peace of mind that our playbook works as expected! :slight_smile:
 
 ## Conclusion 📝
 
