@@ -1,7 +1,7 @@
 ---
 title: "Migrating from Google Workspace and Outlook Mail to iCloud+"
 date: 2023-10-19T09:13:09+01:00
-draft: true
+draft: false
 tags: ["Google Workspace", "Outlook", "Email", "Gmail", "iCloud", "imapsync"]
 showToc: true
 ---
