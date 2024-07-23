@@ -1,6 +1,7 @@
 baseURL: https://danielbrennand.com
 title: Daniel Brennand
-theme: hugo-PaperMod
+theme:
+  - hugo-PaperMod
 
 outputs:
   home:
