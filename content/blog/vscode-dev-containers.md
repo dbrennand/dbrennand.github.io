@@ -22,7 +22,7 @@ To use Dev Containers, you will need the following:
 - [Dev Containers extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode-remote.remote-containers)
 - A container runtime such as Docker, Podman or OrbStack (uses Docker engine under the hood - MacOS only).
 
-My container runtime of choice is [OrbStack](https://orbstack.dev/). I've been using it for a while now and it's been great! :tada: It's fast and very lightweight. Podman is another great alternative, especially if you're looking for a Docker alternative. [Podman Desktop](https://podman-desktop.io/) was released not long ago too, so definitely check it out if GUIs are more your thing :slightly_smiling_face:
+My container runtime of choice is [OrbStack](https://orbstack.dev/). I've been using it for a while now and it has been great! :tada: It's fast and very lightweight. Podman is another great alternative, especially if you're looking for a Docker alternative. [Podman Desktop](https://podman-desktop.io/) was released not long ago too, so definitely check it out if GUIs are more your thing :slightly_smiling_face:
 
 ## Creating a Dev Container
 
