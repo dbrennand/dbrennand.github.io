@@ -1,6 +1,6 @@
 ---
 title: "Getting started with Visual Studio Code Dev Containers"
-date: 2024-07-19T21:12:45+01:00
+date: 2024-07-24T21:12:45+01:00
 draft: false
 tags: ["Dev Containers", "Visual Studio Code"]
 showToc: true
