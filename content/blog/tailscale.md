@@ -77,12 +77,12 @@ In my setup I have [two subnet routers](https://github.com/dbrennand/home-ops/bl
 ## Exit Nodes
 
 > The exit node feature lets you route all traffic through a specific device on your Tailscale network.
->˚
+>
 > — <cite>Tailscale Inc[^3]</cite>
 
 [^3]: [Exit Nodes](https://tailscale.com/kb/1103/exit-nodes)
 
-An exit node is the equivalent of using the default routes `0.0.0.0/0, ::/0` on a traditional VPN configuration. All public internet traffic is routed through the exit node, this is perfect for scenarios where you're on an untrusted network (like the coffee shop Wi-Fi I'm using right now!) and want to route all traffic through a trusted device on your Tailnet. Furthermore, exit nodes are great for bypassing geo-restrictions, for example, if you're travelling and want to watch content that's only available in your home country, or avoid tripping security systems when accessing online banking whilst abroad.
+An exit node is the equivalent of using the default routes `0.0.0.0/0, ::/0` on a traditional VPN configuration. All public internet traffic is routed through the exit node, which is perfect for scenarios where you're on an untrusted network (like the coffee shop Wi-Fi I'm using right now!) and want to route all traffic through a trusted device on your Tailnet. Furthermore, exit nodes are great for bypassing geo-restrictions, for example, if you're travelling and want to watch content that's only available in your home country, or avoid tripping security systems when accessing online banking whilst abroad.
 
 In my setup I have two exit nodes running as unprivileged Proxmox LXC containers. There is a tiny piece of [manual configuration](https://tailscale.com/kb/1130/lxc-unprivileged) needed for this.
 
