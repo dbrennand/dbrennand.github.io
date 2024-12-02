@@ -2,7 +2,7 @@
 title: "Ansible Meetup 21 November 2024"
 date: 2024-11-30T18:46:58Z
 draft: false
-tags: ["ansible", "meetup"]
+tags: ["Ansible", "Meetup"]
 showToc: true
 ---
 
