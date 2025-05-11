@@ -29,6 +29,7 @@ params:
   ShowBreadCrumbs: true
   ShowPostNavLinks: true
   ShowCodeCopyButtons: true
+  ShowWordCount: true
   hidemeta: false
   # Home info mode parameters
   homeInfoParams:
