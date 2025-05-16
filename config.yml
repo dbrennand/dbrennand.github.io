@@ -15,6 +15,8 @@ params:
   env: production
   author: Daniel Brennand
   description: Daniel Brennand - Blog & Personal Website
+  assets:
+    disableHLJS: true
   keywords:
     - Blog
     - Personal Website
@@ -29,6 +31,7 @@ params:
   ShowBreadCrumbs: true
   ShowPostNavLinks: true
   ShowCodeCopyButtons: true
+  ShowWordCount: true
   hidemeta: false
   # Home info mode parameters
   homeInfoParams:
@@ -70,3 +73,12 @@ menu:
 enableRobotsTXT: true
 # Enable emojis in blog content
 enableEmoji: true
+# https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+markup:
+  highlight:
+    # anchorLineNos: true
+    codeFences: true
+    guessSyntax: true
+    # lineNos: false
+    # noClasses: false
+    style: monokai
