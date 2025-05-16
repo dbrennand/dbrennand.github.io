@@ -51,13 +51,13 @@ Now that's out of the way, let's begin interacting with the ECS S3 API using the
 
 Before starting, you will need the following:
 
-| Prerequisite  | Optional |
-| ----- | --- |
-| [Docker](https://www.docker.com/) installed on your system. | No |
-| The S3 API endpoint for the object storage provider of your choice. In the examples I will be using [UKCloud's Cloud Storage endpoint](https://docs.ukcloud.com/articles/cloud-storage/cs-gs.html#api-endpoints): `https://cas.cor00005.ukcloud.com`. | No |
-| The object storage provider's region name. In the examples I will be using: `cor00005`. | No |
-| A bucket created with an object storage provider of your choice. | Yes - You can create one via the API however, for the examples I already had a bucket. |
-| The object storage provider's equivalent of an `AccessKeyId` and `SecretAccessKey`. | No |
+| Prerequisite                                                                                                                                                                                                                                          | Optional                                                                               |
+| ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| [Docker](https://www.docker.com/) installed on your system.                                                                                                                                                                                           | No                                                                                     |
+| The S3 API endpoint for the object storage provider of your choice. In the examples I will be using [UKCloud's Cloud Storage endpoint](https://docs.ukcloud.com/articles/cloud-storage/cs-gs.html#api-endpoints): `https://cas.cor00005.ukcloud.com`. | No                                                                                     |
+| The object storage provider's region name. In the examples I will be using: `cor00005`.                                                                                                                                                               | No                                                                                     |
+| A bucket created with an object storage provider of your choice.                                                                                                                                                                                      | Yes - You can create one via the API however, for the examples I already had a bucket. |
+| The object storage provider's equivalent of an `AccessKeyId` and `SecretAccessKey`.                                                                                                                                                                   | No                                                                                     |
 
 ## Node.js Examples 👨‍💻
 
@@ -131,7 +131,7 @@ try {
 
 Let's see if it works! :smile: Build and run the container image:
 
-```bash
+```console
 docker build -t aws-sdk-s3:nodejs .
 # The aws-sdk looks for the environment variables
 # AWS_ACCESS_KEY_ID and AWS_SECRET_ACCESS_KEY automatically

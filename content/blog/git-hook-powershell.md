@@ -28,13 +28,13 @@ To use this pre-commit Git Hook you must have PowerShell 7, Git and the PSScript
 
 Install PSScriptAnalyzer:
 
-```PowerShell
+```powershell
 Install-Module -Name "PSScriptAnalyzer" -Verbose
 ```
 
 ## Pre-commit Git Hook
 
-```PowerShell
+```powershell
 #!/usr/bin/env pwsh
 Import-Module -Name "PSScriptAnalyzer"
 
@@ -78,7 +78,7 @@ if ($Results.Count -gt 0) {
 
 1. Create `.git/hooks/pre-commit.ps1` and `.git/hooks/pre-commit`:
 
-    ```PowerShell
+    ```powershell
     New-Item -Path ".git\hooks\pre-commit.ps1", ".git\hooks\pre-commit" -ItemType "File"
     ```
 

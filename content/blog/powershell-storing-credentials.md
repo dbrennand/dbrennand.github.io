@@ -12,7 +12,7 @@ Recently I've been working on several PowerShell scripts that require credential
 
 The encrypted password file leverages the [Windows Data Protection API (DPAPI)](https://learn.microsoft.com/en-us/previous-versions/ms995355(v=msdn.10)) to encrypt the password as a `System.Security.SecureString`:
 
-```PowerShell
+```powershell
 $Credentials = Get-Credential
 $Credentials.Password
 System.Security.SecureString
@@ -31,7 +31,7 @@ It's also worth noting there are several caveats to this approach:
 
 To store the password securely in a file, we can use the [`Export-Clixml`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/export-clixml?view=powershell-7.3) cmdlet which will store the `System.Management.Automation.PSCredential` object in XML format:
 
-```PowerShell
+```powershell
 $Credentials = Get-Credential
 $Credentials | Export-Clixml -Path "$(pwd)\EncryptedCreds.xml"
 ```
@@ -56,7 +56,7 @@ Once created, the `EncryptedCreds.xml` file will contain the XML representation 
 
 We can then re-create the `PSCredential` object for use in PowerShell scripts using the [`Import-Clixml`](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/import-clixml?view=powershell-7.3) cmdlet:
 
-```PowerShell
+```powershell
 $Credentials = Import-Clixml -Path "$(pwd)\EncryptedCreds.xml"
 $Credentials
 
@@ -82,7 +82,7 @@ This approach can be good for one off scripts but, can quickly become a maintain
 
 The SecretManagement and SecretStore modules are a great choice for storing credentials securely. To begin, install the modules:
 
-```PowerShell
+```powershell
 Install-Module -Name "Microsoft.PowerShell.SecretManagement", "Microsoft.PowerShell.SecretStore" -Verbose
 ```
 
@@ -90,7 +90,7 @@ Install-Module -Name "Microsoft.PowerShell.SecretManagement", "Microsoft.PowerSh
 
 Next, we need to create a `SecretVault` to store secrets using the [Register-SecretVault](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.secretmanagement/register-secretvault?view=ps-modules) cmdlet 🔐:
 
-```PowerShell
+```powershell
 Register-SecretVault -Name "MySecretVault" -ModuleName "Microsoft.PowerShell.SecretStore" -DefaultVault -Description "Secret vault storing my secrets." -PassThru
 
 Name          ModuleName                       IsDefaultVault
@@ -104,7 +104,7 @@ Nice! :thumbsup: Now lets store a `PSCredential` in the `SecretVault` with the [
 
 > ℹ You can store a `SecureString`, `HashTable`, `String` or `Byte[]` in a secret as well!
 
-```PowerShell
+```powershell
 $RestAPICreds = Get-Credential
 Set-Secret -Name "REST API Creds" -Vault "MySecretVault" -Secret $RestAPICreds
 
@@ -123,7 +123,7 @@ Set-Secret -Name "REST API Creds" -Vault "MySecretVault" -Secret $RestAPICreds -
 
 Now that the secret is stored securely, we can retrieve it in another script using the [Get-Secret](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.secretmanagement/get-secret?view=ps-modules) cmdlet:
 
-```PowerShell
+```powershell
 $RestAPICredentialsSecret = Get-Secret -Name "REST API Credentials" -Vault "MySecretVault"
 $RestAPICredentialsSecret
 
@@ -147,7 +147,7 @@ Awesome! 😎 We've stored the first secret securely! ✨🚀
 
 However, if you use the [Get-Secret](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.secretmanagement/get-secret?view=ps-modules) cmdlet in a new session, or after a certain amount of time has elapsed, you may notice that you're prompted for the password to decrypt the `SecretVault` again! :scream:
 
-```PowerShell
+```powershell
 Get-Secret -Name "REST API Credentials" -Vault "MySecretVault"
 Vault MySecretVault requires a password.
 Enter password:
@@ -159,7 +159,7 @@ Obviously this is an issue if we want our scripts to work without any interactio
 
 To fix this we can leverage the first approach and store our `SecretVault` decryption password in an encrypted password file and retrieve it later! So... lets do it! :smile:
 
-```PowerShell
+```powershell
 $SecretVaultPassword = Get-Credential
 $SecretVaultPassword | Export-Clixml -Path "$(pwd)\SecretVaultPassword.xml"
 Get-Content -Path "$(pwd)\SecretVaultPassword.xml"
@@ -175,7 +175,7 @@ Get-Content -Path "$(pwd)\SecretVaultPassword.xml"
 
 Once done, we can use the [Unlock-SecretStore](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.secretstore/unlock-secretstore?view=ps-modules) cmdlet in our scripts to unlock the `SecretVault` non-interactively:
 
-```PowerShell
+```powershell
 $SecretVaultPassword = (Import-Clixml -Path "$(pwd)\SecretVaultPassword.xml").Password
 Unlock-SecretStore -Password $SecretVaultPassword
 ```
@@ -188,7 +188,7 @@ Finally, you may also want to modify the configuration of a `SecretVault`. You c
 
 Let's check the `SecretVault` configuration with the [Get-SecretStoreConfiguration](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.secretstore/get-secretstoreconfiguration?view=ps-modules) cmdlet:
 
-```PowerShell
+```powershell
 Get-SecretStoreConfiguration
 
       Scope Authentication PasswordTimeout Interaction
@@ -200,7 +200,7 @@ We can see that the `SecretVault` configuration is set to prompt for a password,
 
 The timeout can be changed using the [Set-SecretStoreConfiguration](https://learn.microsoft.com/en-us/powershell/module/microsoft.powershell.secretstore/set-secretstoreconfiguration?view=ps-modules) cmdlet:
 
-```PowerShell
+```powershell
 Set-SecretStoreConfiguration -PasswordTimeout 1800 -Confirm:$false
 # Check the configuration again
 Get-SecretStoreConfiguration
