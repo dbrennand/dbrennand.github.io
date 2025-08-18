@@ -1,4 +1,4 @@
-# dbrennand.github.io - danielbrennand.com 🤖
+# dbrennand.github.io - dbren.uk 🤖
 
 Blog | Personal Website
 
