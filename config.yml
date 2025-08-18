@@ -1,4 +1,4 @@
-baseURL: https://danielbrennand.com
+baseURL: https://dbren.uk
 title: Daniel Brennand
 theme:
   - hugo-PaperMod
@@ -45,7 +45,7 @@ params:
     - name: github
       url: https://github.com/dbrennand
     - name: email
-      url: bWFpbHRvOmNvbnRhY3RAZGFuaWVsYnJlbm5hbmQuY29tCg==
+      url: mailto:contact@danielbrennand.com
     - name: linkedin
       url: https://www.linkedin.com/in/dbrenuk
     - name: twitter
