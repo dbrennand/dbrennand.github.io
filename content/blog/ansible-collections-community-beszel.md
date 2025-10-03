@@ -6,7 +6,7 @@ tags: ["Ansible", "Collection", "Community", "Beszel"]
 showToc: true
 ---
 
-In this blog post I wanted to talk about how I ended up becoming a maintainer for the [`community.beszel`](https://github.com/ansible-collections/community.beszel) Ansible Collection and my learnings.
+In this blog post I wanted to talk about how I became a maintainer for the [`community.beszel`](https://github.com/ansible-collections/community.beszel) Ansible Collection and my learnings.
 
 # What is Beszel?
 
@@ -30,7 +30,7 @@ It wasn't long before [pull requests](https://github.com/dbrennand/ansible-role-
 
 Initially I reached out to the Beszel [maintainer](https://github.com/henrygd/beszel/discussions/969) to propose the idea of an Ansible Collection, but after some more research I found that there is a process for requesting Ansible community collections and this seemed like a great fit. The Beszel [maintainer](https://github.com/henrygd/beszel/discussions/969#discussioncomment-13839515) thought so too, so I requested the new collection be created via the [Ansible forum](https://forum.ansible.com/t/community-beszel-ansible-collection/43999).
 
-The initial `0.1.0` release of [`community.beszel`](https://github.com/ansible-collections/community.beszel) implemented the same Ansible Role as [`dbrennand.beszel`](https://github.com/dbrennand/ansible-role-beszel) but fast forward to today, we're on version `0.3.0` and have Ansible Roles for deploying Beszel Hub on baremetal and Ansible Modules for managing Beszel systems using the Beszel Hub REST API. There is a lot more functionality we can add to [`community.beszel`](https://github.com/ansible-collections/community.beszel) and the collection has started to receive contributions from the community which is excellent! :smiley:
+The initial `0.1.0` release of [`community.beszel`](https://github.com/ansible-collections/community.beszel) implemented the same Ansible Role as [`dbrennand.beszel`](https://github.com/dbrennand/ansible-role-beszel) but fast forward to today, we're on version `0.3.0` and have Ansible Roles for deploying Beszel Hub on baremetal and Ansible Modules for managing Beszel systems using the Beszel Hub REST API. There is a lot more functionality we can add to [`community.beszel`](https://github.com/ansible-collections/community.beszel) and the collection has started to receive contributions from the community which is awesome! :smiley:
 
 # Learnings from becoming an Ansible Collection Maintainer
 
