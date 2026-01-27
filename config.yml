@@ -50,6 +50,8 @@ params:
       url: https://www.linkedin.com/in/dbrenuk
     - name: twitter
       url: https://twitter.com/dbrenuk
+    - name: mastodon
+      url: https://mastodon.social/@dbrenuk
 
 menu:
   main:
