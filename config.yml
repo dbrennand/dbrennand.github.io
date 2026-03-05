@@ -39,7 +39,7 @@ params:
     Content: |
       Welcome to my blog! ✍
 
-      I'm a Service Delivery Engineer 🛠 passionate about DevOps, self-hosting and developing open source software.
+      I work on the Ansible Community and Partner Engineering team at Red Hat. I'm passionate about Community, DevOps, self-hosting and developing open source software.
 
   socialIcons:
     - name: github
@@ -70,6 +70,10 @@ menu:
       name: Archive
       url: /archives
       weight: 40
+    - identifier: Ansible Forum
+      name: Ansible Forum
+      url: https://forum.ansible.com
+      weight: 50
 
 # Hugo config
 enableRobotsTXT: true
