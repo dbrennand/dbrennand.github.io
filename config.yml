@@ -1,90 +1,21 @@
+---
 baseURL: https://dbren.uk
-title: Daniel Brennand
 theme:
-  - hugo-PaperMod
-
-outputs:
-  home:
-    - HTML
-    - RSS
-    - JSON
-
-# Theme specific config
-# https://github.com/adityatelange/hugo-PaperMod
-params:
-  env: production
-  author: Daniel Brennand
-  description: Daniel Brennand - Blog & Personal Website
-  assets:
-    disableHLJS: true
-  keywords:
-    - Blog
-    - Personal Website
-  defaultTheme: auto
-  cover:
-    responsiveImages: true
-    linkFullImages: false
-  comments: false
-  ShowShareButtons: true
-  ShowReadingTime: true
-  ShowToc: true
-  ShowBreadCrumbs: true
-  ShowPostNavLinks: true
-  ShowCodeCopyButtons: true
-  ShowWordCount: true
-  hidemeta: false
-  # Home info mode parameters
-  homeInfoParams:
-    Title: Hi, I'm Daniel Brennand 👋
-    Content: |
-      Welcome to my blog! ✍
-
-      I work on the Ansible Community and Partner Engineering team at Red Hat. I'm passionate about Community, DevOps, self-hosting and developing open source software.
-
-  socialIcons:
-    - name: github
-      url: https://github.com/dbrennand
-    - name: email
-      url: mailto:contact@danielbrennand.com
-    - name: linkedin
-      url: https://www.linkedin.com/in/dbrenuk
-    - name: twitter
-      url: https://twitter.com/dbrenuk
-    - name: mastodon
-      url: https://mastodon.social/@dbrenuk
-
-menu:
-  main:
-    - identifier: Blog
-      name: Blog
-      url: /blog
-      weight: 10
-    - name: Search
-      url: /search
-      weight: 20
-    - identifier: Tags
-      name: Tags
-      url: /tags
-      weight: 30
-    - identifier: Archive
-      name: Archive
-      url: /archives
-      weight: 40
-    - identifier: Ansible Forum
-      name: Ansible Forum
-      url: https://forum.ansible.com
-      weight: 50
-
-# Hugo config
+  - hugo-bearblog
+title: Daniel Brennand
+author: Daniel Brennand
+copyright: Copyright © 2026, Daniel Brennand.
 enableRobotsTXT: true
-# Enable emojis in blog content
 enableEmoji: true
-# https://github.com/adityatelange/hugo-PaperMod/wiki/FAQs#using-hugos-syntax-highlighter-chroma
+
 markup:
   highlight:
-    # anchorLineNos: true
+    style: friendly
+    lineNos: true
+    lineNumbersInTable: false
     codeFences: true
-    guessSyntax: true
-    # lineNos: false
-    # noClasses: false
-    style: monokai
+
+params:
+  description: Daniel Brennand - Blog & Personal Website
+  title: Daniel Brennand
+  enablePostNavigator: true

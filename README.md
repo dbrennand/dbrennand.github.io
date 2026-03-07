@@ -1,12 +1,12 @@
-# dbrennand.github.io - dbren.uk 🤖
+# dbrennand.github.io - dbren.uk
 
 Blog | Personal Website
 
-* [Hugo Theme](https://github.com/adityatelange/hugo-PaperMod)
+[Hugo Theme](https://github.com/janraasch/hugo-bearblog)
 
 ## Dependencies
 
-* [Hugo](https://gohugo.io/)
+[Hugo](https://gohugo.io/)
 
 ## Usage
 
@@ -29,7 +29,7 @@ Blog | Personal Website
     hugo server -D
     ```
 
-4. When `draft:false`, raise PR to merge into the `source` branch. Upon merging, the [GitHub action](.github/workflows/gh-pages.yml) will run and build the site ✨
+4. When a blog post is ready, raise a PR to merge into the `source` branch. Upon merging, the [GitHub action](.github/workflows/gh-pages.yml) will run and build the site ✨
 
 ## Update Hugo Theme
 
