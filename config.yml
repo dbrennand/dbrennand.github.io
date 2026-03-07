@@ -10,7 +10,7 @@ enableEmoji: true
 
 markup:
   highlight:
-    style: friendly
+    style: tokyonight-day
     lineNos: true
     lineNumbersInTable: false
     codeFences: true
