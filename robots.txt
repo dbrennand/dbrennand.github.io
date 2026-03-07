@@ -1,3 +1,2 @@
-User-agent: *
-Disallow:
+User-Agent: *
 Sitemap: https://dbren.uk/sitemap.xml

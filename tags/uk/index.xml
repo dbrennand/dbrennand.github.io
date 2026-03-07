@@ -1,1 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom" xmlns:content="http://purl.org/rss/1.0/modules/content/"><channel><title>UK on Daniel Brennand</title><link>https://dbren.uk/tags/uk/</link><description>Recent content in UK on Daniel Brennand</description><generator>Hugo -- 0.157.0</generator><language>en</language><lastBuildDate>Wed, 30 Sep 2020 13:56:45 +0100</lastBuildDate><atom:link href="https://dbren.uk/tags/uk/index.xml" rel="self" type="application/rss+xml"/><item><title>UK COVID-19 stats application</title><link>https://dbren.uk/blog/covid-19-app/</link><pubDate>Wed, 30 Sep 2020 13:56:45 +0100</pubDate><guid>https://dbren.uk/blog/covid-19-app/</guid><description>A simple Flask app showing how the COVID-19 (SARS-CoV-2) pandemic is developing in the UK.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>UK on Daniel Brennand</title><link>https://dbren.uk/tags/uk/</link><description>Recent content in UK on Daniel Brennand</description><generator>Hugo</generator><language>en</language><copyright>Copyright © 2026, Daniel Brennand.</copyright><lastBuildDate>Wed, 30 Sep 2020 13:56:45 +0100</lastBuildDate><atom:link href="https://dbren.uk/tags/uk/index.xml" rel="self" type="application/rss+xml"/><item><title>UK COVID-19 stats application</title><link>https://dbren.uk/blog/covid-19-app/</link><pubDate>Wed, 30 Sep 2020 13:56:45 +0100</pubDate><guid>https://dbren.uk/blog/covid-19-app/</guid><description>&lt;p&gt;Hi! &amp;#x1f44b;&lt;/p&gt;
+&lt;p&gt;I had some free time recently so I decided to develop something which was relevant to current worldwide situation. The ongoing Coronavirus (COVID-19) pandemic.&lt;/p&gt;
+&lt;p&gt;This is going to be a short blog post about the application, its aims and the process of deploying it to Azure App Service.&lt;/p&gt;
+&lt;h1 id="aims"&gt;Aims&lt;/h1&gt;
+&lt;p&gt;I had three aims that I wanted to achieve:&lt;/p&gt;
+&lt;ul&gt;
+&lt;li&gt;
+&lt;p&gt;I wanted to develop an application which was simple.&lt;/p&gt;
+&lt;/li&gt;
+&lt;li&gt;
+&lt;p&gt;I wanted to show data about how the COVID-19 pandemic is developing in the UK.&lt;/p&gt;</description></item></channel></rss>
