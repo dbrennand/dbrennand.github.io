@@ -1,6 +1,7 @@
 ---
 title: "Argus: My personal AI assistant powered by Hermes Agent"
 date: 2026-05-06T07:57:15+01:00
+tags: ["Hermes Agent", "AI"]
 draft: false
 ---
 
